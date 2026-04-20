@@ -3,330 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Prevoditelj & Odgovarač</title>
+    <title>Prevoditelj &amp; Odgovara&#269;</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#0056b3">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --plava: #0056b3;
-            --zelena: #16a34a;
-            --narancasta: #d97706;
-            --crvena: #dc2626;
-            --bg: #f0f2f5;
-            --white: #ffffff;
-            --text: #1a202c;
-            --siva: #64748b;
-        }
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            padding-bottom: 30px;
-        }
-
-        /* HEADER */
-        .header {
-            background: var(--plava);
-            color: white;
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 12px rgba(0,86,179,0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .header-naslov { font-size: 18px; font-weight: 900; letter-spacing: 0.5px; }
-        .header-naslov span { opacity: 0.7; font-weight: 400; font-size: 13px; display: block; }
-        .btn-postavke {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 38px; height: 38px;
-            border-radius: 50%;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .btn-postavke:hover { background: rgba(255,255,255,0.3); }
-
-        /* SADRŽAJ */
-        .sadrzaj { max-width: 700px; margin: 0 auto; padding: 16px 12px; }
-
-        /* SEKCIJE */
-        .sekcija {
-            background: var(--white);
-            border-radius: 14px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-            margin-bottom: 14px;
-            overflow: hidden;
-        }
-        .sekcija-header {
-            background: #f8fafc;
-            padding: 10px 16px;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 11px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: var(--siva);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .sekcija-body { padding: 14px 16px; }
-
-        /* TEXTAREA */
-        .textarea-poruka {
-            width: 100%;
-            min-height: 130px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 12px;
-            font-size: 15px;
-            line-height: 1.5;
-            resize: vertical;
-            outline: none;
-            transition: border-color 0.2s;
-            font-family: inherit;
-            color: var(--text);
-        }
-        .textarea-poruka:focus { border-color: var(--plava); }
-        .textarea-poruka::placeholder { color: #a0aec0; }
-
-        /* GUMBI AKCIJA */
-        .akcije { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-        .btn {
-            padding: 11px 20px;
-            border-radius: 10px;
-            border: none;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.15s;
-            touch-action: manipulation;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .btn:active { transform: scale(0.97); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        .btn-primarni { background: var(--plava); color: white; flex: 1; justify-content: center; }
-        .btn-primarni:hover:not(:disabled) { background: #0047a0; }
-
-        .btn-ocisti { background: #f1f5f9; color: var(--siva); }
-        .btn-ocisti:hover { background: #e2e8f0; }
-
-        /* PRIJEVOD */
-        .prijevod-box {
-            background: #f0f7ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 10px;
-            padding: 14px;
-            font-size: 15px;
-            line-height: 1.6;
-            color: var(--text);
-            white-space: pre-wrap;
-            position: relative;
-        }
-        .prijevod-label {
-            font-size: 10px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: var(--plava);
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        /* JEZIK BADGE */
-        .jezik-badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 800;
-            background: var(--plava);
-            color: white;
-        }
-
-        /* TON ODGOVORA */
-        .ton-selector { display: flex; gap: 8px; margin-bottom: 14px; }
-        .btn-ton {
-            flex: 1;
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid #e2e8f0;
-            background: white;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.15s;
-            text-align: center;
-            touch-action: manipulation;
-        }
-        .btn-ton.aktivan-sluzbeni {
-            border-color: var(--plava);
-            background: #eff6ff;
-            color: var(--plava);
-        }
-        .btn-ton.aktivan-lezerni {
-            border-color: var(--zelena);
-            background: #f0fdf4;
-            color: var(--zelena);
-        }
-        .btn-ton:active { transform: scale(0.98); }
-
-        /* ODGOVOR TEXTAREA */
-        .textarea-odgovor {
-            width: 100%;
-            min-height: 110px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 12px;
-            font-size: 15px;
-            line-height: 1.5;
-            resize: vertical;
-            outline: none;
-            transition: border-color 0.2s;
-            font-family: inherit;
-            color: var(--text);
-        }
-        .textarea-odgovor:focus { border-color: var(--zelena); }
-
-        /* REZULTAT PRIJEVODA ODGOVORA */
-        .odgovor-preveden-box {
-            background: #f0fdf4;
-            border: 1px solid #86efac;
-            border-radius: 10px;
-            padding: 14px;
-            font-size: 15px;
-            line-height: 1.6;
-            color: var(--text);
-            white-space: pre-wrap;
-        }
-
-        /* KOPIRAJ BTN */
-        .btn-kopiraj {
-            background: var(--zelena);
-            color: white;
-            width: 100%;
-            justify-content: center;
-            margin-top: 10px;
-            padding: 14px;
-            font-size: 15px;
-        }
-        .btn-kopiraj:hover:not(:disabled) { background: #15803d; }
-        .btn-kopiraj.kopiran { background: #475569; }
-
-        /* LOADER */
-        .loader {
-            display: inline-block;
-            width: 18px; height: 18px;
-            border: 3px solid rgba(255,255,255,0.4);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* TOAST */
-        #toast {
-            position: fixed; bottom: 24px; left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background: #1a202c; color: white;
-            padding: 10px 22px; border-radius: 30px;
-            font-size: 13px; font-weight: bold;
-            z-index: 9999; transition: transform 0.3s ease;
-            pointer-events: none; white-space: nowrap;
-        }
-        #toast.prikazan { transform: translateX(-50%) translateY(0); }
-
-        /* MODAL POSTAVKE */
-        #modal-bg {
-            display: none; position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 500; align-items: center; justify-content: center;
-            backdrop-filter: blur(4px);
-        }
-        #modal-bg.otvoren { display: flex; }
-        .modal-box {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            width: 90%; max-width: 420px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-        }
-        .modal-naslov { font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 16px; }
-        .modal-label { font-size: 12px; font-weight: 700; color: var(--siva); margin-bottom: 6px; display: block; }
-        .modal-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 14px;
-            outline: none;
-            font-family: monospace;
-            margin-bottom: 16px;
-        }
-        .modal-input:focus { border-color: var(--plava); }
-        .modal-akcije { display: flex; gap: 8px; }
-        .btn-modal-ok { flex: 1; padding: 12px; background: var(--plava); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; }
-        .btn-modal-cancel { padding: 12px 16px; background: #f1f5f9; color: var(--siva); border: none; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; }
-        .modal-napomena { font-size: 11px; color: var(--siva); line-height: 1.5; margin-bottom: 14px; background: #f8fafc; padding: 10px; border-radius: 8px; border-left: 3px solid var(--plava); }
-
-        /* SKRIVENO dok nema podataka */
-        .skriven { display: none !important; }
-
-        /* ANIMACIJA POJAVE */
-        .fade-in { animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* RESPONSIVE */
-        @media (max-width: 480px) {
-            .akcije { flex-direction: column; }
-            .btn-ocisti { width: 100%; justify-content: center; }
-        }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+    --plava: #0056b3;
+    --zelena: #16a34a;
+    --narancasta: #d97706;
+    --crvena: #dc2626;
+    --bg: #f0f2f5;
+    --white: #ffffff;
+    --text: #1a202c;
+    --siva: #64748b;
+}
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.header {
+    background: var(--plava);
+    color: white;
+    padding: 9px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(0,86,179,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+.header-naslov { font-size: 15px; font-weight: 900; letter-spacing: 0.5px; }
+.header-naslov span { opacity: 0.7; font-weight: 400; font-size: 11px; display: block; }
+.btn-postavke {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+.btn-postavke:hover { background: rgba(255,255,255,0.3); }
+.sadrzaj { flex: 1; display: flex; gap: 10px; padding: 10px; overflow: hidden; }
+.sekcija {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+.sekcija-header {
+    background: #f8fafc;
+    padding: 7px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--siva);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.sekcija-body { padding: 10px 12px; }
+.textarea-poruka {
+    width: 100%;
+    min-height: 75px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+    color: var(--text);
+}
+.textarea-poruka:focus { border-color: var(--plava); }
+.textarea-poruka::placeholder { color: #a0aec0; }
+.akcije { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    touch-action: manipulation;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn-primarni { background: var(--plava); color: white; flex: 1; justify-content: center; }
+.btn-primarni:hover:not(:disabled) { background: #0047a0; }
+.btn-ocisti { background: #f1f5f9; color: var(--siva); }
+.btn-ocisti:hover { background: #e2e8f0; }
+.prijevod-box {
+    background: #f0f7ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+    white-space: pre-wrap;
+    position: relative;
+}
+.jezik-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    background: var(--plava);
+    color: white;
+}
+.ton-selector { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+.btn-ton {
+    flex: 1;
+    min-width: calc(33% - 6px);
+    padding: 7px 4px;
+    border-radius: 8px;
+    border: 2px solid #e2e8f0;
+    background: white;
+    font-weight: 700;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    touch-action: manipulation;
+}
+.btn-ton.aktivan-sluzbeni    { border-color: var(--plava);      background: #eff6ff; color: var(--plava); }
+.btn-ton.aktivan-lezerni     { border-color: var(--zelena);     background: #f0fdf4; color: var(--zelena); }
+.btn-ton.aktivan-kratki      { border-color: var(--narancasta); background: #fffbeb; color: var(--narancasta); }
+.btn-ton.aktivan-diplomatski { border-color: #7c3aed;           background: #f5f3ff; color: #7c3aed; }
+.btn-ton.aktivan-asertivni   { border-color: var(--crvena);     background: #fef2f2; color: var(--crvena); }
+.btn-ton:active { transform: scale(0.98); }
+.textarea-odgovor {
+    width: 100%;
+    min-height: 70px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+    color: var(--text);
+}
+.textarea-odgovor:focus { border-color: var(--zelena); }
+.odgovor-preveden-box {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+    white-space: pre-wrap;
+}
+.btn-kopiraj {
+    background: var(--zelena);
+    color: white;
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+    padding: 10px;
+    font-size: 14px;
+}
+.btn-kopiraj:hover:not(:disabled) { background: #15803d; }
+.btn-kopiraj.kopiran { background: #475569; }
+.loader {
+    display: inline-block;
+    width: 18px; height: 18px;
+    border: 3px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#clipboard-banner {
+    position: fixed; top: -90px; left: 50%;
+    transform: translateX(-50%);
+    background: #1a202c; color: white;
+    padding: 10px 14px; border-radius: 14px;
+    font-size: 13px; font-weight: 600;
+    z-index: 9998; transition: top 0.35s cubic-bezier(.4,0,.2,1);
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    white-space: nowrap; max-width: 90vw;
+}
+#clipboard-banner.prikazan { top: 70px; }
+#clipboard-banner .cb-tekst { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+#clipboard-banner .cb-da {
+    background: var(--plava); color: white;
+    border: none; border-radius: 8px;
+    padding: 6px 12px; font-weight: 700; font-size: 12px;
+    cursor: pointer; white-space: nowrap;
+}
+#clipboard-banner .cb-ne {
+    background: rgba(255,255,255,0.15); color: white;
+    border: none; border-radius: 8px;
+    padding: 6px 10px; font-weight: 700; font-size: 12px;
+    cursor: pointer;
+}
+#toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #1a202c; color: white;
+    padding: 10px 22px; border-radius: 30px;
+    font-size: 13px; font-weight: bold;
+    z-index: 9999; transition: transform 0.3s ease;
+    pointer-events: none; white-space: nowrap;
+}
+#toast.prikazan { transform: translateX(-50%) translateY(0); }
+#modal-bg {
+    display: none; position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 500; align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+}
+#modal-bg.otvoren { display: flex; }
+.modal-box {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    width: 90%; max-width: 420px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+.modal-naslov { font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 16px; }
+.modal-label { font-size: 12px; font-weight: 700; color: var(--siva); margin-bottom: 6px; display: block; }
+.modal-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    font-family: monospace;
+    margin-bottom: 16px;
+}
+.modal-input:focus { border-color: var(--plava); }
+.modal-akcije { display: flex; gap: 8px; }
+.btn-modal-ok { flex: 1; padding: 12px; background: var(--plava); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; }
+.btn-modal-cancel { padding: 12px 16px; background: #f1f5f9; color: var(--siva); border: none; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; }
+.modal-napomena { font-size: 11px; color: var(--siva); line-height: 1.5; margin-bottom: 14px; background: #f8fafc; padding: 10px; border-radius: 8px; border-left: 3px solid var(--plava); }
+.skriven { display: none !important; }
+.fade-in { animation: fadeIn 0.3s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 480px) {
+    .akcije { flex-direction: column; }
+    .btn-ocisti { width: 100%; justify-content: center; }
+}
+.kolumna { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; overflow-y: auto; }
+.prazan-stanje {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #e2e8f0;
+    border-radius: 10px;
+    color: #b0bec5;
+    font-size: 13px;
+    text-align: center;
+    padding: 20px;
+    min-height: 80px;
+}
+#sekcija-ulaz { flex: 1; }
+#sekcija-ulaz .sekcija-body { flex: 1; display: flex; flex-direction: column; }
+#sekcija-ulaz .textarea-poruka { flex: 1; }
+#sekcija-prijevod { flex: 1; }
+#sekcija-prijevod .sekcija-body { flex: 1; display: flex; flex-direction: column; }
+#sekcija-prijevod .prijevod-box { flex: 1; overflow-y: auto; min-height: 40px; }
+#sekcija-skica { flex: 0 0 auto; }
+#sekcija-skica .textarea-skica {
+    width: 100%; min-height: 80px;
+    border: 2px solid #e2e8f0; border-radius: 8px;
+    padding: 10px; font-size: 14px; line-height: 1.5;
+    resize: none; outline: none; font-family: inherit; color: var(--text);
+    transition: border-color 0.2s;
+}
+#sekcija-skica .textarea-skica:focus { border-color: var(--narancasta); }
+#sekcija-odgovor { flex: 1; }
+#sekcija-odgovor .sekcija-body { flex: 1; display: flex; flex-direction: column; }
+#sekcija-odgovor .textarea-odgovor { flex: 1; }
+#sekcija-finalni { flex: 1; }
+#sekcija-finalni .sekcija-body { flex: 1; display: flex; flex-direction: column; }
+#sekcija-finalni .odgovor-preveden-box { flex: 1; overflow-y: auto; min-height: 40px; }
+@media (max-width: 600px) {
+    body { height: auto; overflow-y: auto; }
+    .sadrzaj { flex-direction: column; overflow: visible; }
+    .kolumna { overflow: visible; }
+}
     </style>
 </head>
 <body>
 
 <div id="toast"></div>
 
-<!-- MODAL POSTAVKE -->
+<div id="clipboard-banner">
+    <span>&#128203;</span>
+    <span class="cb-tekst" id="cb-preview"></span>
+    <button class="cb-da" onclick="clipboardPreuzmi()">Otvori u prevoditelju</button>
+    <button class="cb-ne" onclick="clipboardOdbaci()">&times;</button>
+</div>
+
 <div id="modal-bg" onclick="if(event.target===this)zatvoriPostavke()">
     <div class="modal-box">
-        <div class="modal-naslov">⚙️ Postavke</div>
-        <label class="modal-label">Google Gemini API ključ</label>
+        <div class="modal-naslov">&#9881; Postavke</div>
+        <label class="modal-label">Groq API klju&#269;</label>
         <div class="modal-napomena">
-            Besplatni ključ možeš dobiti na <b>aistudio.google.com</b> → Get API Key.<br>
-            Ključ se sprema samo lokalno u ovom browseru.
+            Besplatni klju&#269; dobij na <b>console.groq.com</b> &rarr; API Keys &rarr; Create API key.<br>
+            Besplatno ~14 400 zahtjeva/dan. Klju&#269; se sprema samo lokalno.
         </div>
-        <input type="password" id="input-api-key" class="modal-input" placeholder="AIza...">
+        <input type="password" id="input-api-key" class="modal-input" placeholder="gsk_...">
         <div class="modal-akcije">
             <button class="btn-modal-cancel" onclick="zatvoriPostavke()">Odustani</button>
-            <button class="btn-modal-ok" onclick="spremiApiKey()">💾 Spremi</button>
+            <button class="btn-modal-ok" onclick="spremiApiKey()">&#128190; Spremi</button>
         </div>
     </div>
 </div>
 
-<!-- HEADER -->
 <div class="header">
     <div class="header-naslov">
-        🌐 Prevoditelj
-        <span>Gemini AI · automatski prijevod</span>
+        &#127760; Prevoditelj
+        <span>Groq AI &middot; automatski prijevod</span>
     </div>
-    <button class="btn-postavke" onclick="otvoriPostavke()" title="API ključ">⚙️</button>
+    <button class="btn-postavke" onclick="otvoriPostavke()" title="API klju&#269;">&#9881;</button>
 </div>
 
 <div class="sadrzaj">
+    <div class="kolumna">
 
-    <!-- 1. ULAZNA PORUKA -->
-    <div class="sekcija">
+    <div class="sekcija" id="sekcija-ulaz">
         <div class="sekcija-header">
             <span>1. Zalijepite primljenu poruku</span>
             <span id="jezik-badge" class="jezik-badge skriven"></span>
@@ -335,14 +362,13 @@
             <textarea id="ulaz" class="textarea-poruka" placeholder="Ovdje zalijepi poruku na bilo kojem jeziku..."></textarea>
             <div class="akcije">
                 <button class="btn btn-primarni" id="btn-analiziraj" onclick="analiziraj()">
-                    <span>🔍 Prevedi i analiziraj</span>
+                    <span>&#128269; Prevedi i analiziraj</span>
                 </button>
-                <button class="btn btn-ocisti" onclick="ocisti()">🗑️ Očisti</button>
+                <button class="btn btn-ocisti" onclick="ocisti()">&#128465; O&#269;isti</button>
             </div>
         </div>
     </div>
 
-    <!-- 2. PRIJEVOD -->
     <div class="sekcija skriven" id="sekcija-prijevod">
         <div class="sekcija-header">2. Prijevod na hrvatski</div>
         <div class="sekcija-body">
@@ -350,69 +376,84 @@
         </div>
     </div>
 
-    <!-- 3. ODGOVOR -->
-    <div class="sekcija skriven" id="sekcija-odgovor">
-        <div class="sekcija-header">3. Napiši odgovor (na hrvatskom)</div>
-        <div class="sekcija-body">
+    </div>
+    <div class="kolumna" id="kolumna-desna">
+        <div class="prazan-stanje" id="prazan-stanje">&#8592; Zalijepite poruku i pritisnite &#8222;Prevedi i analiziraj&#8220;</div>
 
+    <div class="sekcija skriven" id="sekcija-skica">
+        <div class="sekcija-header">3. Skica odgovora (kratke napomene)</div>
+        <div class="sekcija-body">
+            <textarea id="textarea-skica" class="textarea-skica"
+                placeholder="Napi&#353;i klju&#269;ne to&#269;ke koje &#382;eli&#353; da AI uklju&#269;i u odgovor..."></textarea>
+        </div>
+    </div>
+
+    <div class="sekcija skriven" id="sekcija-odgovor">
+        <div class="sekcija-header">4. Napi&#353;i odgovor (na hrvatskom)</div>
+        <div class="sekcija-body">
             <div class="ton-selector">
                 <button class="btn-ton aktivan-sluzbeni" id="btn-sluzbeni" onclick="odaberiTon('sluzbeni')">
-                    👔 Službeni
+                    &#128084; Slu&#382;beni
                 </button>
                 <button class="btn-ton" id="btn-lezerni" onclick="odaberiTon('lezerni')">
-                    😊 Ležerni
+                    &#128522; Le&#382;erni
+                </button>
+                <button class="btn-ton" id="btn-kratki" onclick="odaberiTon('kratki')">
+                    &#9889; Kratki
+                </button>
+                <button class="btn-ton" id="btn-diplomatski" onclick="odaberiTon('diplomatski')">
+                    &#129309; Diplomatski
+                </button>
+                <button class="btn-ton" id="btn-asertivni" onclick="odaberiTon('asertivni')">
+                    &#128170; Asertivni
                 </button>
             </div>
-
             <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
                 <button class="btn btn-primarni" id="btn-predlozi" onclick="predloziOdgovor()" style="flex:1; justify-content:center;">
-                    ✨ Predloži odgovor
+                    &#10024; Predlo&#382;i odgovor
                 </button>
             </div>
-
             <textarea id="textarea-odgovor-hr" class="textarea-odgovor"
-                placeholder="AI će predložiti odgovor, ali možeš ga i sam napisati ili urediti..."></textarea>
-
+                placeholder="AI &#263;e predlo&#382;iti odgovor, ali mo&#382;e&#353; ga i sam napisati ili urediti..."></textarea>
             <div class="akcije" style="margin-top:10px;">
                 <button class="btn btn-primarni" id="btn-prevedi-odgovor" onclick="prevediOdgovor()" style="justify-content:center;">
-                    🔄 Prevedi moj odgovor
+                    &#128260; Prevedi moj odgovor
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- 4. FINALNI ODGOVOR -->
     <div class="sekcija skriven" id="sekcija-finalni">
         <div class="sekcija-header">
-            <span>4. Finalni odgovor za slanje</span>
+            <span>5. Finalni odgovor za slanje</span>
             <span id="jezik-badge-izlaz" class="jezik-badge skriven"></span>
         </div>
         <div class="sekcija-body">
             <div class="odgovor-preveden-box fade-in" id="box-finalni"></div>
             <button class="btn btn-kopiraj" id="btn-kopiraj" onclick="kopiraj()">
-                📋 Kopiraj i pošalji
+                &#128203; Kopiraj i po&#353;alji
             </button>
         </div>
     </div>
 
+    </div>
 </div>
 
 <script>
-    // ── STANJE ───────────────────────────────────────────────────
     let odabraniTon = 'sluzbeni';
     let detektiraniJezik = '';
     let detektiraniJezikKod = '';
     let toastTimer;
 
-    // ── API KEY ──────────────────────────────────────────────────
-    function getApiKey() { return localStorage.getItem('gemini_api_key') || ''; }
+    const UGRADJENI_KLJUC = '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';
+    function getApiKey() { return localStorage.getItem('groq_api_key') || UGRADJENI_KLJUC; }
+
     function spremiApiKey() {
         const val = document.getElementById('input-api-key').value.trim();
-        if (!val) { prikaziToast('Unesi API ključ!'); return; }
-        localStorage.setItem('gemini_api_key', val);
-        localStorage.removeItem('gemini_model'); // resetiraj model pri novom ključu
+        if (!val) { prikaziToast('Unesi API klju\u010d!'); return; }
+        localStorage.setItem('groq_api_key', val);
         zatvoriPostavke();
-        prikaziToast('API ključ spremljen ✓');
+        prikaziToast('API klju\u010d spremljen \u2713');
     }
     function otvoriPostavke() {
         document.getElementById('input-api-key').value = getApiKey();
@@ -422,218 +463,171 @@
         document.getElementById('modal-bg').classList.remove('otvoren');
     }
 
-    // ── DOHVATI DOSTUPNI MODEL ───────────────────────────────────
-    async function dohvatiModel() {
-        const cached = localStorage.getItem('gemini_model');
-        if (cached) return cached;
-        const apiKey = getApiKey();
-        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-        const data = await res.json();
-        const modeli = (data.models || []).filter(m =>
-            m.supportedGenerationMethods?.includes('generateContent')
-        );
-        // preferiraj flash modele
-        const flash = modeli.find(m => m.name.toLowerCase().includes('flash'));
-        const odabran = flash || modeli[0];
-        if (!odabran) throw new Error('Nema dostupnih modela za ovaj API ključ');
-        const imeModela = odabran.name.replace('models/', '');
-        localStorage.setItem('gemini_model', imeModela);
-        return imeModela;
-    }
+    const GROQ_MODELI = [
+        'llama-3.3-70b-versatile',
+        'llama-3.1-70b-versatile',
+        'llama-3.1-8b-instant',
+        'mixtral-8x7b-32768',
+        'gemma2-9b-it',
+    ];
+    let trenutniModelIdx = 0;
 
-    // ── TON ───────────────────────────────────────────────────────
     function odaberiTon(ton) {
         odabraniTon = ton;
-        document.getElementById('btn-sluzbeni').className = 'btn-ton' + (ton === 'sluzbeni' ? ' aktivan-sluzbeni' : '');
-        document.getElementById('btn-lezerni').className = 'btn-ton' + (ton === 'lezerni' ? ' aktivan-lezerni' : '');
+        ['sluzbeni','lezerni','kratki','diplomatski','asertivni'].forEach(t => {
+            document.getElementById('btn-' + t).className = 'btn-ton' + (ton === t ? ' aktivan-' + t : '');
+        });
+        if (document.getElementById('ulaz').value.trim()) {
+            predloziOdgovor();
+        }
     }
 
-    // ── GEMINI POZIV ──────────────────────────────────────────────
-    async function gemini(prompt) {
+    async function gemini(prompt, pokusaj = 0) {
         const apiKey = getApiKey();
-        if (!apiKey) {
-            otvoriPostavke();
-            throw new Error('Nema API ključa');
-        }
-        const model = await dohvatiModel();
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-        const res = await fetch(url, {
+        if (!apiKey) { otvoriPostavke(); throw new Error('Nema API klju\u010da'); }
+        const model = GROQ_MODELI[trenutniModelIdx];
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
-                generationConfig: { temperature: 0.3, maxOutputTokens: 1024 }
-            })
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+            body: JSON.stringify({ model, messages: [{ role: 'user', content: prompt }], temperature: 0.3, max_tokens: 1024 })
         });
         if (!res.ok) {
             const err = await res.json();
-            throw new Error(err.error?.message || 'Greška s API-em');
+            const poruka = err.error?.message || 'Gre\u0161ka s API-em';
+            if (res.status === 429) {
+                if (trenutniModelIdx < GROQ_MODELI.length - 1) {
+                    trenutniModelIdx++;
+                    prikaziToast(`Prebacujem na ${GROQ_MODELI[trenutniModelIdx]}...`);
+                    return gemini(prompt, pokusaj);
+                }
+                throw new Error('Dnevna kvota iscrpljena. Poku\u0161aj sutra ili uzmi novi API klju\u010d na console.groq.com');
+            }
+            if (res.status === 503 && pokusaj < 3) {
+                await new Promise(r => setTimeout(r, (pokusaj + 1) * 2000));
+                return gemini(prompt, pokusaj + 1);
+            }
+            throw new Error(poruka);
         }
         const data = await res.json();
-        return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '';
+        return data.choices?.[0]?.message?.content?.trim() || '';
     }
 
-    // ── POSTAVI LOADING ───────────────────────────────────────────
     function setLoading(btnId, loading) {
         const btn = document.getElementById(btnId);
         if (loading) {
             btn.disabled = true;
-            btn.innerHTML = `<span class="loader"></span>`;
+            btn.innerHTML = '<span class="loader"></span>';
         } else {
             btn.disabled = false;
         }
     }
 
-    // ── 1. ANALIZIRAJ ─────────────────────────────────────────────
     async function analiziraj() {
         const tekst = document.getElementById('ulaz').value.trim();
         if (!tekst) { prikaziToast('Zalijepite poruku!'); return; }
-
         setLoading('btn-analiziraj', true);
         sakrij(['sekcija-prijevod', 'sekcija-odgovor', 'sekcija-finalni']);
-
         try {
-            const prompt = `Analiziraj sljedeću poruku i odgovori ISKLJUČIVO u ovom formatu (bez ikakvih dodatnih objašnjenja):
-
-JEZIK: [naziv jezika na hrvatskom, npr. "njemački", "engleski", "talijanski", "francuski"...]
-JEZIK_KOD: [ISO 639-1 kod jezika, npr. "de", "en", "it", "fr"...]
-PRIJEVOD: [prirodan prijevod na hrvatski jezik]
-
-Poruka:
-"""
-${tekst}
-"""`;
-
+            const prompt = `Analiziraj sljede\u0107u poruku i odgovori ISKLJU\u010cIVO u ovom formatu (bez ikakvih dodatnih obja\u0161njenja):\n\nJEZIK: [naziv jezika na hrvatskom, npr. "njema\u010dki", "engleski", "talijanski", "francuski"...]\nJEZIK_KOD: [ISO 639-1 kod jezika, npr. "de", "en", "it", "fr"...]\nPRIJEVOD: [prirodan prijevod na hrvatski jezik]\n\nPoruka:\n"""\n${tekst}\n"""`;
             const odgovor = await gemini(prompt);
-
-            // Parsiraj odgovor
             const jezikMatch = odgovor.match(/JEZIK:\s*(.+)/i);
             const kodMatch = odgovor.match(/JEZIK_KOD:\s*(.+)/i);
             const prijevodMatch = odgovor.match(/PRIJEVOD:\s*([\s\S]+)/i);
-
             const jezikNaziv = jezikMatch ? jezikMatch[1].trim() : 'nepoznat';
             const jezikKod = kodMatch ? kodMatch[1].trim().toLowerCase() : 'en';
             detektiraniJezik = jezikNaziv.toLowerCase();
             detektiraniJezikKod = jezikKod;
             const prijevod = prijevodMatch ? prijevodMatch[1].trim() : odgovor;
-
-            // Zastavice za poznate jezike
-            const zastavice = { de: '🇩🇪', en: '🇬🇧', fr: '🇫🇷', it: '🇮🇹', es: '🇪🇸', pl: '🇵🇱', nl: '🇳🇱', cs: '🇨🇿', sk: '🇸🇰', hu: '🇭🇺', ro: '🇷🇴', sl: '🇸🇮', sr: '🇷🇸', bs: '🇧🇦', ru: '🇷🇺', pt: '🇵🇹', tr: '🇹🇷', ar: '🇸🇦', zh: '🇨🇳', ja: '🇯🇵' };
-            const zastavica = zastavice[jezikKod] || '🌐';
+            const zastavice = { de: '\uD83C\uDDE9\uD83C\uDDEA', en: '\uD83C\uDDEC\uD83C\uDDE7', fr: '\uD83C\uDDEB\uD83C\uDDF7', it: '\uD83C\uDDEE\uD83C\uDDF9', es: '\uD83C\uDDEA\uD83C\uDDF8', pl: '\uD83C\uDDF5\uD83C\uDDF1', nl: '\uD83C\uDDF3\uD83C\uDDF1', cs: '\uD83C\uDDE8\uD83C\uDDFF', sk: '\uD83C\uDDF8\uD83C\uDDF0', hu: '\uD83C\uDDED\uD83C\uDDFA', ro: '\uD83C\uDDF7\uD83C\uDDF4', sl: '\uD83C\uDDF8\uD83C\uDDEE', sr: '\uD83C\uDDF7\uD83C\uDDF8', bs: '\uD83C\uDDE7\uD83C\uDDE6', ru: '\uD83C\uDDF7\uD83C\uDDFA', pt: '\uD83C\uDDF5\uD83C\uDDF9', tr: '\uD83C\uDDF9\uD83C\uDDF7', ar: '\uD83C\uDDF8\uD83C\uDDE6', zh: '\uD83C\uDDE8\uD83C\uDDF3', ja: '\uD83C\uDDEF\uD83C\uDDF5' };
+            const zastavica = zastavice[jezikKod] || '\u{1F310}';
             const badgeTekst = `${zastavica} ${jezikNaziv.charAt(0).toUpperCase() + jezikNaziv.slice(1)}`;
-
-            const badge = document.getElementById('jezik-badge');
-            badge.textContent = badgeTekst;
-            badge.classList.remove('skriven');
-
-            const badgeIzlaz = document.getElementById('jezik-badge-izlaz');
-            badgeIzlaz.textContent = badgeTekst;
-            badgeIzlaz.classList.remove('skriven');
-
+            document.getElementById('jezik-badge').textContent = badgeTekst;
+            document.getElementById('jezik-badge').classList.remove('skriven');
+            document.getElementById('jezik-badge-izlaz').textContent = badgeTekst;
+            document.getElementById('jezik-badge-izlaz').classList.remove('skriven');
             document.getElementById('box-prijevod').textContent = prijevod;
-            pokazi(['sekcija-prijevod', 'sekcija-odgovor']);
+            sakrij(['prazan-stanje']);
+            pokazi(['sekcija-prijevod', 'sekcija-skica', 'sekcija-odgovor']);
             document.getElementById('textarea-odgovor-hr').value = '';
+            document.getElementById('textarea-skica').value = '';
             document.getElementById('box-finalni').textContent = '';
-
-            // Pomakni prema dolje
             setTimeout(() => document.getElementById('sekcija-prijevod').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
-
         } catch (e) {
-            prikaziToast('Greška: ' + e.message);
+            prikaziToast('Gre\u0161ka: ' + e.message);
         }
-
-        document.getElementById('btn-analiziraj').innerHTML = '<span>🔍 Prevedi i analiziraj</span>';
+        document.getElementById('btn-analiziraj').innerHTML = '<span>&#128269; Prevedi i analiziraj</span>';
         document.getElementById('btn-analiziraj').disabled = false;
     }
 
-    // ── 2. PREDLOŽI ODGOVOR ───────────────────────────────────────
     async function predloziOdgovor() {
         const originalna = document.getElementById('ulaz').value.trim();
         if (!originalna) { prikaziToast('Nema originalne poruke!'); return; }
-
         setLoading('btn-predlozi', true);
-
         try {
-            const tonOpis = odabraniTon === 'sluzbeni'
-                ? 'službenim, profesionalnim tonom, uljudno i formalno'
-                : 'ležernim, prijateljskim tonom, opušteno i direktno';
-
-            const prompt = `Napiši kratki odgovor na sljedeću poruku. Odgovor piši ISKLJUČIVO na hrvatskom jeziku, ${tonOpis}. Nemoj prevoditi poruku, samo napiši odgovor koji bi osoba poslala. Bez uvoda, bez objašnjenja — samo sam tekst odgovora.
-
-Originalna poruka:
-"""
-${originalna}
-"""`;
-
+            const TONOVI = {
+                sluzbeni:    'slu\u017ebenim, profesionalnim tonom, uljudno i formalno',
+                lezerni:     'le\u017eernim, prijateljskim tonom, opu\u0161teno i direktno',
+                kratki:      'vrlo kratko i sa\u017eeto \u2014 maksimalno 2-3 re\u010denice, bez vi\u0161ka rije\u010di',
+                diplomatski: 'diplomats ki, pa\u017eljivo biraju\u0107i rije\u010di, izbjegavaju\u0107i sukob i ostavljaju\u0107i prostor za kompromis',
+                asertivni:   'asertivno i samopouzdano, jasno izra\u017eavaju\u0107i stav bez agresivnosti'
+            };
+            const tonOpis = TONOVI[odabraniTon] || TONOVI.sluzbeni;
+            const skica = document.getElementById('textarea-skica').value.trim();
+            const skicaDio = skica ? `\n\nKorisnik \u017eeli da odgovor uklju\u010di sljede\u0107e to\u010dke:\n"""\n${skica}\n"""` : '';
+            const prompt = `Napi\u0161i kratki odgovor na sljede\u0107u poruku. Odgovor pi\u0161i ISKLJU\u010cIVO na hrvatskom jeziku, ${tonOpis}. Nemoj prevoditi poruku, samo napi\u0161i odgovor koji bi osoba poslala. Bez uvoda, bez obja\u0161njenja \u2014 samo sam tekst odgovora.${skicaDio}\n\nOriginalna poruka:\n"""\n${originalna}\n"""`;
             const predlog = await gemini(prompt);
             document.getElementById('textarea-odgovor-hr').value = predlog;
             document.getElementById('textarea-odgovor-hr').focus();
-
         } catch (e) {
-            prikaziToast('Greška: ' + e.message);
+            prikaziToast('Gre\u0161ka: ' + e.message);
         }
-
-        document.getElementById('btn-predlozi').innerHTML = '✨ Predloži odgovor';
+        document.getElementById('btn-predlozi').innerHTML = '&#10024; Predlo\u017ei odgovor';
         document.getElementById('btn-predlozi').disabled = false;
     }
 
-    // ── 3. PREVEDI ODGOVOR ────────────────────────────────────────
     async function prevediOdgovor() {
         const hrTekst = document.getElementById('textarea-odgovor-hr').value.trim();
-        if (!hrTekst) { prikaziToast('Napiši ili predloži odgovor!'); return; }
-
+        if (!hrTekst) { prikaziToast('Napi\u0161i ili predlo\u017ei odgovor!'); return; }
         setLoading('btn-prevedi-odgovor', true);
         sakrij(['sekcija-finalni']);
-
         try {
-            const prompt = `Prevedi sljedeći tekst s hrvatskog na ${detektiraniJezik || 'engleski'}. Zadrži isti ton i stil. Bez ikakvih komentara — samo prijevod.
-
-"""
-${hrTekst}
-"""`;
-
+            const prompt = `Prevedi sljede\u0107i tekst s hrvatskog na ${detektiraniJezik || 'engleski'}. Zadr\u017ei isti ton i stil. Bez ikakvih komentara \u2014 samo prijevod.\n\n"""\n${hrTekst}\n"""`;
             const preveden = await gemini(prompt);
             document.getElementById('box-finalni').textContent = preveden;
             pokazi(['sekcija-finalni']);
-
-            setTimeout(() => document.getElementById('sekcija-finalni').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
-
         } catch (e) {
-            prikaziToast('Greška: ' + e.message);
+            prikaziToast('Gre\u0161ka: ' + e.message);
         }
-
-        document.getElementById('btn-prevedi-odgovor').innerHTML = '🔄 Prevedi moj odgovor';
+        document.getElementById('btn-prevedi-odgovor').innerHTML = '&#128260; Prevedi moj odgovor';
         document.getElementById('btn-prevedi-odgovor').disabled = false;
     }
 
-    // ── KOPIRAJ ───────────────────────────────────────────────────
     function kopiraj() {
         const tekst = document.getElementById('box-finalni').textContent;
         if (!tekst) return;
         navigator.clipboard.writeText(tekst).then(() => {
             const btn = document.getElementById('btn-kopiraj');
-            btn.textContent = '✅ Kopirano!';
+            btn.textContent = '\u2705 Kopirano!';
             btn.classList.add('kopiran');
             setTimeout(() => {
-                btn.innerHTML = '📋 Kopiraj i pošalji';
+                btn.innerHTML = '&#128203; Kopiraj i po\u0161alji';
                 btn.classList.remove('kopiran');
             }, 2000);
         });
     }
 
-    // ── OČISTI ────────────────────────────────────────────────────
     function ocisti() {
         document.getElementById('ulaz').value = '';
+        document.getElementById('textarea-skica').value = '';
         document.getElementById('textarea-odgovor-hr').value = '';
         document.getElementById('box-prijevod').textContent = '';
         document.getElementById('box-finalni').textContent = '';
         document.getElementById('jezik-badge').classList.add('skriven');
-        sakrij(['sekcija-prijevod', 'sekcija-odgovor', 'sekcija-finalni']);
+        sakrij(['sekcija-prijevod', 'sekcija-skica', 'sekcija-odgovor', 'sekcija-finalni']);
         detektiraniJezik = '';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ── POMOĆNE ───────────────────────────────────────────────────
     function pokazi(ids) { ids.forEach(id => document.getElementById(id).classList.remove('skriven')); }
     function sakrij(ids) { ids.forEach(id => document.getElementById(id).classList.add('skriven')); }
 
@@ -645,12 +639,55 @@ ${hrTekst}
         toastTimer = setTimeout(() => t.classList.remove('prikazan'), 2500);
     }
 
-    // ── INIT ──────────────────────────────────────────────────────
-    window.onload = () => {
-        if (!getApiKey()) {
-            setTimeout(otvoriPostavke, 500);
+    let zadnjiClipboard = '';
+    let clipboardBannerTimer;
+
+    async function provjeriClipboard() {
+        try {
+            const tekst = await navigator.clipboard.readText();
+            if (!tekst || tekst === zadnjiClipboard) return;
+            if (tekst === document.getElementById('ulaz').value.trim()) return;
+            if (tekst.trim().length < 5) return;
+            zadnjiClipboard = tekst;
+            const preview = tekst.length > 50 ? tekst.slice(0, 50) + '\u2026' : tekst;
+            document.getElementById('cb-preview').textContent = preview;
+            const banner = document.getElementById('clipboard-banner');
+            banner.classList.add('prikazan');
+            clearTimeout(clipboardBannerTimer);
+            clipboardBannerTimer = setTimeout(clipboardOdbaci, 8000);
+        } catch (e) {}
+    }
+
+    function clipboardPreuzmi() {
+        document.getElementById('ulaz').value = zadnjiClipboard;
+        clipboardOdbaci();
+        if (getApiKey()) analiziraj();
+    }
+
+    function clipboardOdbaci() {
+        document.getElementById('clipboard-banner').classList.remove('prikazan');
+        clearTimeout(clipboardBannerTimer);
+    }
+
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') provjeriClipboard();
+    });
+    window.addEventListener('focus', provjeriClipboard);
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+
+    window.addEventListener('load', () => {
+        const params = new URLSearchParams(window.location.search);
+        const shared = params.get('shared');
+        if (shared) {
+            const tekst = decodeURIComponent(shared);
+            document.getElementById('ulaz').value = tekst;
+            history.replaceState({}, '', window.location.pathname);
+            if (getApiKey()) analiziraj();
         }
-    };
+    });
 </script>
 </body>
 </html>

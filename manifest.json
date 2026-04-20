@@ -2,9 +2,19 @@
   "name": "Prevoditelj & Odgovarač",
   "short_name": "Prevoditelj",
   "description": "AI prijevod poruka i generiranje odgovora",
-  "start_url": "/",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f0f2f5",
   "theme_color": "#0056b3",
-  "icons": []
+  "icons": [],
+  "share_target": {
+    "action": "./index.html",
+    "method": "GET",
+    "params": {
+      "text": "shared",
+      "title": "title",
+      "url": "url"
+    }
+  }
 }
+
