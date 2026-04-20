@@ -445,7 +445,7 @@ body {
     let detektiraniJezikKod = '';
     let toastTimer;
 
-    function getApiKey() { return localStorage.getItem(\'groq_api_key\') || \'\'; }
+    function getApiKey() { return localStorage.getItem('groq_api_key') || ''; }
 
     function spremiApiKey() {
         const val = document.getElementById('input-api-key').value.trim();
