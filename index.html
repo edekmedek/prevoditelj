@@ -445,8 +445,7 @@ body {
     let detektiraniJezikKod = '';
     let toastTimer;
 
-    const UGRADJENI_KLJUC = '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';
-    function getApiKey() { return localStorage.getItem('groq_api_key') || UGRADJENI_KLJUC; }
+    function getApiKey() { return localStorage.getItem(\'groq_api_key\') || \'\'; }
 
     function spremiApiKey() {
         const val = document.getElementById('input-api-key').value.trim();
