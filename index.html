@@ -359,7 +359,7 @@ body {
             <span id="jezik-badge" class="jezik-badge skriven"></span>
         </div>
         <div class="sekcija-body">
-            <textarea id="ulaz" class="textarea-poruka" placeholder="Ovdje zalijepi poruku na bilo kojem jeziku..."></textarea>
+            <textarea id="ulaz" class="textarea-poruka" placeholder="Ovdje zalijepi poruku na bilo kojem jeziku..." onpaste="setTimeout(analiziraj, 50)"></textarea>
             <div class="akcije">
                 <button class="btn btn-primarni" id="btn-analiziraj" onclick="analiziraj()">
                     <span>&#128269; Prevedi i analiziraj</span>
