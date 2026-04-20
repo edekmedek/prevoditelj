@@ -318,7 +318,7 @@
 <div class="header">
     <div class="header-naslov">
         🌐 Prevoditelj
-        <span>Gemini AI · HR ↔ DE/EN</span>
+        <span>Gemini AI · automatski prijevod</span>
     </div>
     <button class="btn-postavke" onclick="otvoriPostavke()" title="API ključ">⚙️</button>
 </div>
@@ -332,7 +332,7 @@
             <span id="jezik-badge" class="jezik-badge skriven"></span>
         </div>
         <div class="sekcija-body">
-            <textarea id="ulaz" class="textarea-poruka" placeholder="Ovdje zalijepi poruku na njemačkom ili engleskom..."></textarea>
+            <textarea id="ulaz" class="textarea-poruka" placeholder="Ovdje zalijepi poruku na bilo kojem jeziku..."></textarea>
             <div class="akcije">
                 <button class="btn btn-primarni" id="btn-analiziraj" onclick="analiziraj()">
                     <span>🔍 Prevedi i analiziraj</span>
@@ -401,6 +401,7 @@
     // ── STANJE ───────────────────────────────────────────────────
     let odabraniTon = 'sluzbeni';
     let detektiraniJezik = '';
+    let detektiraniJezikKod = '';
     let toastTimer;
 
     // ── API KEY ──────────────────────────────────────────────────
@@ -409,6 +410,7 @@
         const val = document.getElementById('input-api-key').value.trim();
         if (!val) { prikaziToast('Unesi API ključ!'); return; }
         localStorage.setItem('gemini_api_key', val);
+        localStorage.removeItem('gemini_model'); // resetiraj model pri novom ključu
         zatvoriPostavke();
         prikaziToast('API ključ spremljen ✓');
     }
@@ -418,6 +420,25 @@
     }
     function zatvoriPostavke() {
         document.getElementById('modal-bg').classList.remove('otvoren');
+    }
+
+    // ── DOHVATI DOSTUPNI MODEL ───────────────────────────────────
+    async function dohvatiModel() {
+        const cached = localStorage.getItem('gemini_model');
+        if (cached) return cached;
+        const apiKey = getApiKey();
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+        const data = await res.json();
+        const modeli = (data.models || []).filter(m =>
+            m.supportedGenerationMethods?.includes('generateContent')
+        );
+        // preferiraj flash modele
+        const flash = modeli.find(m => m.name.toLowerCase().includes('flash'));
+        const odabran = flash || modeli[0];
+        if (!odabran) throw new Error('Nema dostupnih modela za ovaj API ključ');
+        const imeModela = odabran.name.replace('models/', '');
+        localStorage.setItem('gemini_model', imeModela);
+        return imeModela;
     }
 
     // ── TON ───────────────────────────────────────────────────────
@@ -434,7 +455,8 @@
             otvoriPostavke();
             throw new Error('Nema API ključa');
         }
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        const model = await dohvatiModel();
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
         const res = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -473,7 +495,8 @@
         try {
             const prompt = `Analiziraj sljedeću poruku i odgovori ISKLJUČIVO u ovom formatu (bez ikakvih dodatnih objašnjenja):
 
-JEZIK: [samo "njemački" ili "engleski"]
+JEZIK: [naziv jezika na hrvatskom, npr. "njemački", "engleski", "talijanski", "francuski"...]
+JEZIK_KOD: [ISO 639-1 kod jezika, npr. "de", "en", "it", "fr"...]
 PRIJEVOD: [prirodan prijevod na hrvatski jezik]
 
 Poruka:
@@ -485,18 +508,26 @@ ${tekst}
 
             // Parsiraj odgovor
             const jezikMatch = odgovor.match(/JEZIK:\s*(.+)/i);
+            const kodMatch = odgovor.match(/JEZIK_KOD:\s*(.+)/i);
             const prijevodMatch = odgovor.match(/PRIJEVOD:\s*([\s\S]+)/i);
 
-            detektiraniJezik = jezikMatch ? jezikMatch[1].trim().toLowerCase() : 'nepoznat';
+            const jezikNaziv = jezikMatch ? jezikMatch[1].trim() : 'nepoznat';
+            const jezikKod = kodMatch ? kodMatch[1].trim().toLowerCase() : 'en';
+            detektiraniJezik = jezikNaziv.toLowerCase();
+            detektiraniJezikKod = jezikKod;
             const prijevod = prijevodMatch ? prijevodMatch[1].trim() : odgovor;
 
-            // Prikaži badge
+            // Zastavice za poznate jezike
+            const zastavice = { de: '🇩🇪', en: '🇬🇧', fr: '🇫🇷', it: '🇮🇹', es: '🇪🇸', pl: '🇵🇱', nl: '🇳🇱', cs: '🇨🇿', sk: '🇸🇰', hu: '🇭🇺', ro: '🇷🇴', sl: '🇸🇮', sr: '🇷🇸', bs: '🇧🇦', ru: '🇷🇺', pt: '🇵🇹', tr: '🇹🇷', ar: '🇸🇦', zh: '🇨🇳', ja: '🇯🇵' };
+            const zastavica = zastavice[jezikKod] || '🌐';
+            const badgeTekst = `${zastavica} ${jezikNaziv.charAt(0).toUpperCase() + jezikNaziv.slice(1)}`;
+
             const badge = document.getElementById('jezik-badge');
-            badge.textContent = detektiraniJezik === 'njemački' ? '🇩🇪 Njemački' : '🇬🇧 Engleski';
+            badge.textContent = badgeTekst;
             badge.classList.remove('skriven');
 
             const badgeIzlaz = document.getElementById('jezik-badge-izlaz');
-            badgeIzlaz.textContent = badge.textContent;
+            badgeIzlaz.textContent = badgeTekst;
             badgeIzlaz.classList.remove('skriven');
 
             document.getElementById('box-prijevod').textContent = prijevod;
@@ -555,8 +586,7 @@ ${originalna}
         sakrij(['sekcija-finalni']);
 
         try {
-            const ciljniJezik = detektiraniJezik === 'njemački' ? 'njemački' : 'engleski';
-            const prompt = `Prevedi sljedeći tekst s hrvatskog na ${ciljniJezik}. Zadrži isti ton i stil. Bez ikakvih komentara — samo prijevod.
+            const prompt = `Prevedi sljedeći tekst s hrvatskog na ${detektiraniJezik || 'engleski'}. Zadrži isti ton i stil. Bez ikakvih komentara — samo prijevod.
 
 """
 ${hrTekst}
