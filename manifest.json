@@ -1,0 +1,10 @@
+{
+  "name": "Prevoditelj & Odgovarač",
+  "short_name": "Prevoditelj",
+  "description": "AI prijevod poruka i generiranje odgovora",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#0056b3",
+  "icons": []
+}
