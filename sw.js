@@ -1,4 +1,4 @@
-const CACHE = 'prevoditelj-v1';
+﻿const CACHE = 'prevoditelj-v6';
 
 self.addEventListener('install', e => {
     self.skipWaiting();
@@ -12,7 +12,7 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-    // Za share target POST zahtjev — preusmjeri na GET s parametrom
+    // Za share target POST zahtjev â€” preusmjeri na GET s parametrom
     if (e.request.method === 'POST' && e.request.url.includes('share-target')) {
         e.respondWith((async () => {
             const formData = await e.request.formData();
@@ -28,3 +28,7 @@ self.addEventListener('fetch', e => {
         caches.match(e.request).then(cached => cached || fetch(e.request))
     );
 });
+
+
+
+

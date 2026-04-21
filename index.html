@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="hr">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +6,7 @@
     <title>Prevoditelj &amp; Odgovara&#269;</title>
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#0056b3">
+
     <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -18,6 +19,36 @@
     --text: #1a202c;
     --siva: #64748b;
 }
+body.dark {
+    --bg: #0f172a;
+    --white: #1e293b;
+    --text: #f1f5f9;
+    --siva: #94a3b8;
+}
+body.dark .sekcija-header { background: #162032; border-bottom-color: #2d3f55; }
+body.dark .textarea-poruka,
+body.dark .textarea-odgovor,
+body.dark .textarea-skica { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .textarea-poruka::placeholder,
+body.dark .textarea-odgovor::placeholder,
+body.dark .textarea-skica::placeholder { color: #475569; }
+body.dark .prijevod-box { background: #162032; border-color: #1d4ed8; }
+body.dark .odgovor-preveden-box { background: #14291e; border-color: #166534; }
+body.dark .btn-ocisti { background: #1e293b; color: #94a3b8; }
+body.dark .btn-ocisti:hover { background: #2d3f55; }
+body.dark .btn-ton { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini:hover { background: #162032; border-color: var(--plava); color: #60a5fa; }
+body.dark .prazan-stanje { border-color: #2d3f55; color: #475569; }
+body.dark #clipboard-banner { background: #1e293b; }
+body.dark .modal-box { background: #1e293b; }
+body.dark .modal-input { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .modal-napomena { background: #162032; }
+body.dark .historija-stavka { background: #162032; border-color: #2d3f55; }
+body.dark .historija-stavka:hover { background: #1e3a5f; border-color: var(--plava); }
+body.dark #historija-panel { background: #1e293b; }
+body.dark .historija-footer { border-top-color: #2d3f55; }
+body.dark .btn-obrisi-historiju { background: #2d1f1f; border-color: #7f1d1d; }
 body {
     font-family: 'Segoe UI', sans-serif;
     background: var(--bg);
@@ -52,7 +83,24 @@ body {
     transition: background 0.2s;
     display: flex; align-items: center; justify-content: center;
 }
+.btn-postavke-label { width: auto; padding: 0 10px; border-radius: 20px; font-size: 12px; font-weight: 700; gap: 4px; }
 .btn-postavke:hover { background: rgba(255,255,255,0.3); }
+.btn-clipboard {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.35);
+    color: white;
+    height: 32px;
+    padding: 0 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex; align-items: center; gap: 5px;
+    white-space: nowrap;
+}
+.btn-clipboard:hover { background: rgba(255,255,255,0.28); }
+.btn-clipboard.aktivan { background: rgba(255,255,255,0.28); border-color: rgba(255,255,255,0.7); }
 .sadrzaj { flex: 1; display: flex; gap: 10px; padding: 10px; overflow: hidden; }
 .sekcija {
     background: var(--white);
@@ -77,6 +125,37 @@ body {
     justify-content: space-between;
 }
 .sekcija-body { padding: 10px 12px; }
+.sekcija-body.dark {
+    --bg: #0f172a;
+    --white: #1e293b;
+    --text: #f1f5f9;
+    --siva: #94a3b8;
+}
+body.dark .sekcija-header { background: #162032; border-bottom-color: #2d3f55; }
+body.dark .textarea-poruka,
+body.dark .textarea-odgovor,
+body.dark .textarea-skica { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .textarea-poruka::placeholder,
+body.dark .textarea-odgovor::placeholder,
+body.dark .textarea-skica::placeholder { color: #475569; }
+body.dark .prijevod-box { background: #162032; border-color: #1d4ed8; }
+body.dark .odgovor-preveden-box { background: #14291e; border-color: #166534; }
+body.dark .btn-ocisti { background: #1e293b; color: #94a3b8; }
+body.dark .btn-ocisti:hover { background: #2d3f55; }
+body.dark .btn-ton { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini:hover { background: #162032; border-color: var(--plava); color: #60a5fa; }
+body.dark .prazan-stanje { border-color: #2d3f55; color: #475569; }
+body.dark #clipboard-banner { background: #1e293b; }
+body.dark .modal-box { background: #1e293b; }
+body.dark .modal-input { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .modal-napomena { background: #162032; }
+body.dark .historija-stavka { background: #162032; border-color: #2d3f55; }
+body.dark .historija-stavka:hover { background: #1e3a5f; border-color: var(--plava); }
+body.dark #historija-panel { background: #1e293b; }
+body.dark .historija-footer { border-top-color: #2d3f55; }
+body.dark .btn-obrisi-historiju { background: #2d1f1f; border-color: #7f1d1d; }
+body { padding: 10px 12px; }
 .textarea-poruka {
     width: 100%;
     min-height: 75px;
@@ -200,17 +279,19 @@ body {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 #clipboard-banner {
-    position: fixed; top: -90px; left: 50%;
-    transform: translateX(-50%);
+    position: fixed; top: -90px; left: 10px;
     background: #1a202c; color: white;
     padding: 10px 14px; border-radius: 14px;
     font-size: 13px; font-weight: 600;
     z-index: 9998; transition: top 0.35s cubic-bezier(.4,0,.2,1);
     display: flex; align-items: center; gap: 10px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.35);
-    white-space: nowrap; max-width: 90vw;
+    white-space: nowrap; max-width: calc(50% - 20px);
 }
 #clipboard-banner.prikazan { top: 70px; }
+@media (max-width: 600px) {
+    #clipboard-banner { left: 10px; right: 10px; max-width: calc(100% - 20px); white-space: normal; }
+}
 #clipboard-banner .cb-tekst { flex: 1; overflow: hidden; text-overflow: ellipsis; }
 #clipboard-banner .cb-da {
     background: var(--plava); color: white;
@@ -266,9 +347,131 @@ body {
 .btn-modal-ok { flex: 1; padding: 12px; background: var(--plava); color: white; border: none; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; }
 .btn-modal-cancel { padding: 12px 16px; background: #f1f5f9; color: var(--siva); border: none; border-radius: 10px; font-weight: bold; font-size: 14px; cursor: pointer; }
 .modal-napomena { font-size: 11px; color: var(--siva); line-height: 1.5; margin-bottom: 14px; background: #f8fafc; padding: 10px; border-radius: 8px; border-left: 3px solid var(--plava); }
+.donate-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #f1f5f9; gap: 10px; }
+.donate-row:last-child { border-bottom: none; }
+.donate-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--siva); flex-shrink: 0; }
+.donate-value { font-size: 13px; font-weight: 600; color: var(--text); font-family: monospace; text-align: right; word-break: break-all; }
+.donate-iban { font-size: 15px; font-weight: 900; color: var(--plava); letter-spacing: 1px; text-align: center; background: #f0f7ff; border-radius: 8px; padding: 10px; margin: 10px 0; font-family: monospace; }
+.btn-kopiraj-iban { background: var(--plava); color: white; border: none; border-radius: 8px; padding: 8px 14px; font-size: 12px; font-weight: 700; cursor: pointer; flex-shrink: 0; transition: background 0.2s; }
+.btn-kopiraj-iban:hover { background: #0047a0; }
+body.dark .donate-row { border-bottom-color: #2d3f55; }
+body.dark .donate-iban { background: #162032; }
 .skriven { display: none !important; }
 .fade-in { animation: fadeIn 0.3s ease-out; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+#historija-panel {
+    position: fixed; top: 0; right: -360px; width: 340px; height: 100%;
+    background: white; z-index: 600;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.18);
+    display: flex; flex-direction: column;
+    transition: right 0.3s cubic-bezier(.4,0,.2,1);
+}
+#historija-panel.otvoren { right: 0; }
+#historija-overlay {
+    display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4); z-index: 599; backdrop-filter: blur(2px);
+}
+#historija-overlay.otvoren { display: block; }
+.historija-header {
+    background: var(--plava); color: white;
+    padding: 12px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+}
+.historija-naslov { font-size: 14px; font-weight: 900; }
+.historija-naslov span { font-size: 10px; font-weight: 400; opacity: 0.75; display: block; margin-top: 2px; }
+.btn-historija-zatvori {
+    background: rgba(255,255,255,0.2); border: none; color: white;
+    width: 30px; height: 30px; border-radius: 50%; font-size: 16px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.btn-historija-zatvori:hover { background: rgba(255,255,255,0.35); }
+.historija-lista { flex: 1; overflow-y: auto; padding: 8px; }
+.historija-prazno {
+    display: flex; align-items: center; justify-content: center;
+    height: 100%; color: #b0bec5; font-size: 13px; text-align: center;
+    flex-direction: column; gap: 8px;
+}
+.historija-prazno span { font-size: 32px; }
+.historija-stavka {
+    border: 1.5px solid #e2e8f0; border-radius: 10px;
+    padding: 10px 12px; margin-bottom: 8px;
+    cursor: pointer; transition: all 0.15s;
+    background: #fafbfc;
+}
+.historija-stavka:hover { border-color: var(--plava); background: #eff6ff; }
+.historija-stavka:active { transform: scale(0.98); }
+.historija-meta {
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 6px;
+}
+.historija-lang {
+    font-size: 11px; font-weight: 800;
+    background: var(--plava); color: white;
+    padding: 2px 8px; border-radius: 20px;
+}
+.historija-datum {
+    font-size: 10px; color: var(--siva); margin-left: auto;
+}
+.historija-original {
+    font-size: 12px; color: var(--siva);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-bottom: 3px;
+}
+.historija-prijevod {
+    font-size: 12px; color: var(--text); font-weight: 600;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.historija-footer {
+    padding: 10px 12px; border-top: 1px solid #e2e8f0; flex-shrink: 0;
+}
+.btn-obrisi-historiju {
+    width: 100%; padding: 9px; background: #fef2f2; color: var(--crvena);
+    border: 1.5px solid #fecaca; border-radius: 8px;
+    font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s;
+}
+.btn-obrisi-historiju:hover { background: #fee2e2; }
+@media (max-width: 400px) {
+    #historija-panel { width: 100%; right: -100%; }
+}
+.btn-mini {
+    background: rgba(255,255,255,0.85);
+    border: 1.5px solid #e2e8f0;
+    border-radius: 7px;
+    padding: 3px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--siva);
+    display: flex; align-items: center; gap: 4px;
+    transition: all 0.15s;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+.btn-mini:hover { background: white; border-color: var(--plava); color: var(--plava); }
+.btn-mini:active { transform: scale(0.95); }
+.btn-mini.ok { color: var(--zelena); border-color: var(--zelena); }
+.btn-mini.snima { border-color: var(--crvena); color: var(--crvena); animation: pulsRed 1s ease infinite; }
+.btn-mini.govori { border-color: var(--plava); color: var(--plava); }
+@keyframes pulsRed { 0%,100% { opacity:1; } 50% { opacity:0.45; } }
+.btn-mini {
+    background: rgba(255,255,255,0.85);
+    border: 1.5px solid #e2e8f0;
+    border-radius: 7px;
+    padding: 3px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--siva);
+    display: flex; align-items: center; gap: 4px;
+    transition: all 0.15s;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+.btn-mini:hover { background: white; border-color: var(--plava); color: var(--plava); }
+.btn-mini:active { transform: scale(0.95); }
+.btn-mini.ok { color: var(--zelena); border-color: var(--zelena); }
+.btn-mini.snima { border-color: var(--crvena); color: var(--crvena); animation: pulsRed 1s ease infinite; }
+.btn-mini.govori { border-color: var(--plava); color: var(--plava); }
+@keyframes pulsRed { 0%,100% { opacity:1; } 50% { opacity:0.45; } }
 @media (max-width: 480px) {
     .akcije { flex-direction: column; }
     .btn-ocisti { width: 100%; justify-content: center; }
@@ -287,11 +490,70 @@ body {
     padding: 20px;
     min-height: 80px;
 }
-#sekcija-ulaz { flex: 1; }
-#sekcija-ulaz .sekcija-body { flex: 1; display: flex; flex-direction: column; }
-#sekcija-ulaz .textarea-poruka { flex: 1; }
-#sekcija-prijevod { flex: 1; }
-#sekcija-prijevod .sekcija-body { flex: 1; display: flex; flex-direction: column; }
+#sekcija-ulaz { flex: 0 0 auto; }
+#sekcija-ulaz .sekcija-body.dark {
+    --bg: #0f172a;
+    --white: #1e293b;
+    --text: #f1f5f9;
+    --siva: #94a3b8;
+}
+body.dark .sekcija-header { background: #162032; border-bottom-color: #2d3f55; }
+body.dark .textarea-poruka,
+body.dark .textarea-odgovor,
+body.dark .textarea-skica { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .textarea-poruka::placeholder,
+body.dark .textarea-odgovor::placeholder,
+body.dark .textarea-skica::placeholder { color: #475569; }
+body.dark .prijevod-box { background: #162032; border-color: #1d4ed8; }
+body.dark .odgovor-preveden-box { background: #14291e; border-color: #166534; }
+body.dark .btn-ocisti { background: #1e293b; color: #94a3b8; }
+body.dark .btn-ocisti:hover { background: #2d3f55; }
+body.dark .btn-ton { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini:hover { background: #162032; border-color: var(--plava); color: #60a5fa; }
+body.dark .prazan-stanje { border-color: #2d3f55; color: #475569; }
+body.dark #clipboard-banner { background: #1e293b; }
+body.dark .modal-box { background: #1e293b; }
+body.dark .modal-input { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .modal-napomena { background: #162032; }
+body.dark .historija-stavka { background: #162032; border-color: #2d3f55; }
+body.dark .historija-stavka:hover { background: #1e3a5f; border-color: var(--plava); }
+body.dark #historija-panel { background: #1e293b; }
+body.dark .historija-footer { border-top-color: #2d3f55; }
+body.dark .btn-obrisi-historiju { background: #2d1f1f; border-color: #7f1d1d; }
+body { flex: 1; display: flex; flex-direction: column; }
+#sekcija-prijevod { flex: 0 0 auto; }
+#sekcija-prijevod .sekcija-body.dark {
+    --bg: #0f172a;
+    --white: #1e293b;
+    --text: #f1f5f9;
+    --siva: #94a3b8;
+}
+body.dark .sekcija-header { background: #162032; border-bottom-color: #2d3f55; }
+body.dark .textarea-poruka,
+body.dark .textarea-odgovor,
+body.dark .textarea-skica { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .textarea-poruka::placeholder,
+body.dark .textarea-odgovor::placeholder,
+body.dark .textarea-skica::placeholder { color: #475569; }
+body.dark .prijevod-box { background: #162032; border-color: #1d4ed8; }
+body.dark .odgovor-preveden-box { background: #14291e; border-color: #166534; }
+body.dark .btn-ocisti { background: #1e293b; color: #94a3b8; }
+body.dark .btn-ocisti:hover { background: #2d3f55; }
+body.dark .btn-ton { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini:hover { background: #162032; border-color: var(--plava); color: #60a5fa; }
+body.dark .prazan-stanje { border-color: #2d3f55; color: #475569; }
+body.dark #clipboard-banner { background: #1e293b; }
+body.dark .modal-box { background: #1e293b; }
+body.dark .modal-input { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .modal-napomena { background: #162032; }
+body.dark .historija-stavka { background: #162032; border-color: #2d3f55; }
+body.dark .historija-stavka:hover { background: #1e3a5f; border-color: var(--plava); }
+body.dark #historija-panel { background: #1e293b; }
+body.dark .historija-footer { border-top-color: #2d3f55; }
+body.dark .btn-obrisi-historiju { background: #2d1f1f; border-color: #7f1d1d; }
+body { flex: 1; display: flex; flex-direction: column; }
 #sekcija-prijevod .prijevod-box { flex: 1; overflow-y: auto; min-height: 40px; }
 #sekcija-skica { flex: 0 0 auto; }
 #sekcija-skica .textarea-skica {
@@ -303,17 +565,77 @@ body {
 }
 #sekcija-skica .textarea-skica:focus { border-color: var(--narancasta); }
 #sekcija-odgovor { flex: 1; }
-#sekcija-odgovor .sekcija-body { flex: 1; display: flex; flex-direction: column; }
+#sekcija-odgovor .sekcija-body.dark {
+    --bg: #0f172a;
+    --white: #1e293b;
+    --text: #f1f5f9;
+    --siva: #94a3b8;
+}
+body.dark .sekcija-header { background: #162032; border-bottom-color: #2d3f55; }
+body.dark .textarea-poruka,
+body.dark .textarea-odgovor,
+body.dark .textarea-skica { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .textarea-poruka::placeholder,
+body.dark .textarea-odgovor::placeholder,
+body.dark .textarea-skica::placeholder { color: #475569; }
+body.dark .prijevod-box { background: #162032; border-color: #1d4ed8; }
+body.dark .odgovor-preveden-box { background: #14291e; border-color: #166534; }
+body.dark .btn-ocisti { background: #1e293b; color: #94a3b8; }
+body.dark .btn-ocisti:hover { background: #2d3f55; }
+body.dark .btn-ton { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini:hover { background: #162032; border-color: var(--plava); color: #60a5fa; }
+body.dark .prazan-stanje { border-color: #2d3f55; color: #475569; }
+body.dark #clipboard-banner { background: #1e293b; }
+body.dark .modal-box { background: #1e293b; }
+body.dark .modal-input { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .modal-napomena { background: #162032; }
+body.dark .historija-stavka { background: #162032; border-color: #2d3f55; }
+body.dark .historija-stavka:hover { background: #1e3a5f; border-color: var(--plava); }
+body.dark #historija-panel { background: #1e293b; }
+body.dark .historija-footer { border-top-color: #2d3f55; }
+body.dark .btn-obrisi-historiju { background: #2d1f1f; border-color: #7f1d1d; }
+body { flex: 1; display: flex; flex-direction: column; }
 #sekcija-odgovor .textarea-odgovor { flex: 1; }
 #sekcija-finalni { flex: 1; }
-#sekcija-finalni .sekcija-body { flex: 1; display: flex; flex-direction: column; }
+#sekcija-finalni .sekcija-body.dark {
+    --bg: #0f172a;
+    --white: #1e293b;
+    --text: #f1f5f9;
+    --siva: #94a3b8;
+}
+body.dark .sekcija-header { background: #162032; border-bottom-color: #2d3f55; }
+body.dark .textarea-poruka,
+body.dark .textarea-odgovor,
+body.dark .textarea-skica { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .textarea-poruka::placeholder,
+body.dark .textarea-odgovor::placeholder,
+body.dark .textarea-skica::placeholder { color: #475569; }
+body.dark .prijevod-box { background: #162032; border-color: #1d4ed8; }
+body.dark .odgovor-preveden-box { background: #14291e; border-color: #166534; }
+body.dark .btn-ocisti { background: #1e293b; color: #94a3b8; }
+body.dark .btn-ocisti:hover { background: #2d3f55; }
+body.dark .btn-ton { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini { background: #1e293b; border-color: #2d3f55; color: #94a3b8; }
+body.dark .btn-mini:hover { background: #162032; border-color: var(--plava); color: #60a5fa; }
+body.dark .prazan-stanje { border-color: #2d3f55; color: #475569; }
+body.dark #clipboard-banner { background: #1e293b; }
+body.dark .modal-box { background: #1e293b; }
+body.dark .modal-input { background: #0f172a; border-color: #2d3f55; color: var(--text); }
+body.dark .modal-napomena { background: #162032; }
+body.dark .historija-stavka { background: #162032; border-color: #2d3f55; }
+body.dark .historija-stavka:hover { background: #1e3a5f; border-color: var(--plava); }
+body.dark #historija-panel { background: #1e293b; }
+body.dark .historija-footer { border-top-color: #2d3f55; }
+body.dark .btn-obrisi-historiju { background: #2d1f1f; border-color: #7f1d1d; }
+body { flex: 1; display: flex; flex-direction: column; }
 #sekcija-finalni .odgovor-preveden-box { flex: 1; overflow-y: auto; min-height: 40px; }
 @media (max-width: 600px) {
     body { height: auto; overflow-y: auto; }
     .sadrzaj { flex-direction: column; overflow: visible; }
     .kolumna { overflow: visible; }
 }
-    </style>
+</style>
 </head>
 <body>
 
@@ -326,19 +648,31 @@ body {
     <button class="cb-ne" onclick="clipboardOdbaci()">&times;</button>
 </div>
 
-<div id="modal-bg" onclick="if(event.target===this)zatvoriPostavke()">
-    <div class="modal-box">
-        <div class="modal-naslov">&#9881; Postavke</div>
-        <label class="modal-label">Groq API klju&#269;</label>
-        <div class="modal-napomena">
-            Besplatni klju&#269; dobij na <b>console.groq.com</b> &rarr; API Keys &rarr; Create API key.<br>
-            Besplatno ~14 400 zahtjeva/dan. Klju&#269; se sprema samo lokalno.
+
+
+<div id="historija-overlay" onclick="zatvoriHistoriju()"></div>
+<div id="donate-overlay" onclick="zatvoriDonate()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:700;"></div>
+<div id="donate-modal" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--white);border-radius:16px;padding:22px 20px 18px;width:min(360px,92vw);z-index:701;box-shadow:0 8px 40px rgba(0,0,0,0.22);">
+    <div style="text-align:center;margin-bottom:14px;"><img src="./avatar.jpg" style="width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15);"><div style="font-size:16px;font-weight:900;color:var(--text);">Kupi mi kavu</div><div style="font-size:12px;color:var(--siva);margin-top:3px;">Ako ti je alat koristan, podrzi razvoj &#128512;</div></div>
+    <div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px;text-align:center;font-family:monospace;font-size:17px;font-weight:900;color:#0056b3;letter-spacing:1px;margin-bottom:10px;">LT72 3250 0890 0895 6704</div>
+    <button onclick="kopirajIban()" id="btn-kopiraj-iban" style="width:100%;margin-bottom:14px;padding:9px;background:#0056b3;color:white;border:none;border-radius:9px;font-weight:700;font-size:13px;cursor:pointer;">&#128203; Kopiraj IBAN</button>
+    <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f1f5f9;"><span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#64748b;">Primatelj</span><span style="font-size:13px;font-weight:600;">Eduard Steyskal</span></div>
+    <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f1f5f9;"><span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#64748b;">BIC / SWIFT</span><span style="font-size:13px;font-weight:600;font-family:monospace;">REVOLT21</span></div>
+    <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f1f5f9;"><span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#64748b;">Banka</span><span style="font-size:13px;font-weight:600;">Revolut Bank UAB</span></div>
+    <div style="display:flex;justify-content:space-between;padding:7px 0;margin-bottom:14px;"><span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:#64748b;">Kor. BIC</span><span style="font-size:13px;font-weight:600;font-family:monospace;">CHASDEFX</span></div>
+    <button onclick="zatvoriDonate()" style="width:100%;padding:10px;background:#f1f5f9;color:#64748b;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;">Zatvori</button>
+</div>
+<div id="historija-panel">
+    <div class="historija-header">
+        <div class="historija-naslov">
+            &#128336; Zadnji prijevodi
+            <span>Pohranjeno lokalno u pregledniku</span>
         </div>
-        <input type="password" id="input-api-key" class="modal-input" placeholder="gsk_...">
-        <div class="modal-akcije">
-            <button class="btn-modal-cancel" onclick="zatvoriPostavke()">Odustani</button>
-            <button class="btn-modal-ok" onclick="spremiApiKey()">&#128190; Spremi</button>
-        </div>
+        <button class="btn-historija-zatvori" onclick="zatvoriHistoriju()">&#10005;</button>
+    </div>
+    <div class="historija-lista" id="historija-lista"></div>
+    <div class="historija-footer">
+        <button class="btn-obrisi-historiju" onclick="obrisiHistoriju()">&#128465; Obri&#353;i svu povijest</button>
     </div>
 </div>
 
@@ -347,7 +681,7 @@ body {
         &#127760; Prevoditelj
         <span>Groq AI &middot; automatski prijevod</span>
     </div>
-    <button class="btn-postavke" onclick="otvoriPostavke()" title="API klju&#269;">&#9881;</button>
+    <button class="btn-postavke btn-postavke-label" id="btn-dark" onclick="toggleDark()" title="Tamni/svijetli prikaz"><span id="btn-dark-ikona">&#9790;</span> Dark</button> <button class="btn-postavke btn-postavke-label" onclick="otvoriHistoriju()" title="Zadnji prijevodi">&#128336; Povijest</button> <button class="btn-postavke btn-postavke-label" onclick="otvoriDonate()" title="Podrzi razvoj" style="background:rgba(255,200,0,0.25);border:1px solid rgba(255,255,255,0.3);"><img src="./avatar.jpg" style="width:30px;height:30px;border-radius:50%;object-fit:cover;margin-right:6px;vertical-align:middle;"> Buy Me a Coffee</button> <button class="btn-postavke btn-postavke-label" onclick="ocisti()" title="Obrisi sve i pocni ispocetka" style="background:rgba(220,38,38,0.25);border:1px solid rgba(255,255,255,0.3);">&#128465; Očisti</button>
 </div>
 
 <div class="sadrzaj">
@@ -356,21 +690,23 @@ body {
     <div class="sekcija" id="sekcija-ulaz">
         <div class="sekcija-header">
             <span>1. Zalijepite primljenu poruku</span>
-            <span id="jezik-badge" class="jezik-badge skriven"></span>
-        </div>
+            <div style="display:flex;align-items:center;gap:5px;"><span id="jezik-badge" class="jezik-badge skriven"></span>
+        <button class="btn-mini" id="btn-citaj-ulaz" onclick="citajUlaz()" title="Preslusaj poruku">&#128266;</button><button class="btn-mini" id="btn-mikrofon" onclick="toggleMikrofon()" title="Govori u mikrofon">&#127908;</button><button class="btn-mini" id="btn-zalijepi" onclick="zalijepiUlaz()" title="Zalijepi">&#128203; Zalijepi</button></div></div>
         <div class="sekcija-body">
-            <textarea id="ulaz" class="textarea-poruka" placeholder="Ovdje zalijepi poruku na bilo kojem jeziku..." onpaste="setTimeout(analiziraj, 50)"></textarea>
+            <textarea id="ulaz" class="textarea-poruka" placeholder="Ovdje zalijepi poruku na bilo kojem jeziku..." oninput="autoResize(this)"></textarea>
             <div class="akcije">
                 <button class="btn btn-primarni" id="btn-analiziraj" onclick="analiziraj()">
                     <span>&#128269; Prevedi i analiziraj</span>
                 </button>
-                <button class="btn btn-ocisti" onclick="ocisti()">&#128465; O&#269;isti</button>
+
+                <button class="btn btn-ocisti" onclick="ocisti()" title="Obrisi sve i pocni ispocetka">&#128465; O&#269;isti sve</button>
             </div>
+
         </div>
     </div>
 
     <div class="sekcija skriven" id="sekcija-prijevod">
-        <div class="sekcija-header">2. Prijevod na hrvatski</div>
+        <div class="sekcija-header"><span>2. Prijevod na hrvatski</span><div style="display:flex;gap:5px;align-items:center;"><button class="btn-mini" id="btn-citaj-prijevod" onclick="citaj('box-prijevod','hr')" title="Citaj naglas">&#128266;</button><button class="btn-mini" id="btn-kopiraj-prijevod" onclick="kopirajPrijevod()">&#128203; Kopiraj</button></div></div>
         <div class="sekcija-body">
             <div class="prijevod-box fade-in" id="box-prijevod"></div>
         </div>
@@ -389,7 +725,7 @@ body {
     </div>
 
     <div class="sekcija skriven" id="sekcija-odgovor">
-        <div class="sekcija-header">4. Napi&#353;i odgovor (na hrvatskom)</div>
+        <div class="sekcija-header" style="display:flex;align-items:center;justify-content:space-between;"><span>4. Napi&#353;i odgovor (na hrvatskom)</span><button class="btn-mini" id="btn-citaj-odgovor" onclick="citaj('textarea-odgovor-hr','hr')" title="Citaj naglas">&#128266;</button></div>
         <div class="sekcija-body">
             <div class="ton-selector">
                 <button class="btn-ton aktivan-sluzbeni" id="btn-sluzbeni" onclick="odaberiTon('sluzbeni')">
@@ -426,10 +762,10 @@ body {
     <div class="sekcija skriven" id="sekcija-finalni">
         <div class="sekcija-header">
             <span>5. Finalni odgovor za slanje</span>
-            <span id="jezik-badge-izlaz" class="jezik-badge skriven"></span>
-        </div>
+            <div style="display:flex;gap:5px;align-items:center;"><span id="jezik-badge-izlaz" class="jezik-badge skriven"></span>
+        <button class="btn-mini" id="btn-citaj-finalni" onclick="citaj('box-finalni',detektiraniJezikKod)" title="Citaj naglas">&#128266;</button></div></div>
         <div class="sekcija-body">
-            <div class="odgovor-preveden-box fade-in" id="box-finalni"></div>
+            <textarea class="odgovor-preveden-box fade-in" id="box-finalni" rows="5" style="width:100%;resize:vertical;outline:none;font-family:inherit;"></textarea>
             <button class="btn btn-kopiraj" id="btn-kopiraj" onclick="kopiraj()">
                 &#128203; Kopiraj i po&#353;alji
             </button>
@@ -445,22 +781,9 @@ body {
     let detektiraniJezikKod = '';
     let toastTimer;
 
-    function getApiKey() { return localStorage.getItem('groq_api_key') || ''; }
-
-    function spremiApiKey() {
-        const val = document.getElementById('input-api-key').value.trim();
-        if (!val) { prikaziToast('Unesi API klju\u010d!'); return; }
-        localStorage.setItem('groq_api_key', val);
-        zatvoriPostavke();
-        prikaziToast('API klju\u010d spremljen \u2713');
-    }
-    function otvoriPostavke() {
-        document.getElementById('input-api-key').value = getApiKey();
-        document.getElementById('modal-bg').classList.add('otvoren');
-    }
-    function zatvoriPostavke() {
-        document.getElementById('modal-bg').classList.remove('otvoren');
-    }
+    function spremiApiKey() {}
+    function otvoriPostavke() {}
+    function zatvoriPostavke() {}
 
     const GROQ_MODELI = [
         'llama-3.3-70b-versatile',
@@ -482,16 +805,14 @@ body {
     }
 
     async function gemini(prompt, pokusaj = 0) {
-        const apiKey = getApiKey();
-        if (!apiKey) { otvoriPostavke(); throw new Error('Nema API klju\u010da'); }
         const model = GROQ_MODELI[trenutniModelIdx];
-        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        const res = await fetch('/.netlify/functions/groq', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
-            body: JSON.stringify({ model, messages: [{ role: 'user', content: prompt }], temperature: 0.3, max_tokens: 1024 })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model, prompt })
         });
         if (!res.ok) {
-            const err = await res.json();
+            let err = {}; try { err = await res.json(); } catch (_) {}
             const poruka = err.error?.message || 'Gre\u0161ka s API-em';
             if (res.status === 429) {
                 if (trenutniModelIdx < GROQ_MODELI.length - 1) {
@@ -542,20 +863,25 @@ body {
             const badgeTekst = `${zastavica} ${jezikNaziv.charAt(0).toUpperCase() + jezikNaziv.slice(1)}`;
             document.getElementById('jezik-badge').textContent = badgeTekst;
             document.getElementById('jezik-badge').classList.remove('skriven');
+            ulazLangKod = jezikKod;
             document.getElementById('jezik-badge-izlaz').textContent = badgeTekst;
             document.getElementById('jezik-badge-izlaz').classList.remove('skriven');
-            document.getElementById('box-prijevod').textContent = prijevod;
+            const boxPrijevod = document.getElementById('box-prijevod');
+            boxPrijevod.textContent = prijevod;
+            boxPrijevod.style.whiteSpace = '';
             sakrij(['prazan-stanje']);
             pokazi(['sekcija-prijevod', 'sekcija-skica', 'sekcija-odgovor']);
             document.getElementById('textarea-odgovor-hr').value = '';
             document.getElementById('textarea-skica').value = '';
-            document.getElementById('box-finalni').textContent = '';
-            setTimeout(() => document.getElementById('sekcija-prijevod').scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+            document.getElementById('box-finalni').value = '';
+            spremiPrijevod(tekst, prijevod, jezikNaziv, jezikKod);
         } catch (e) {
             prikaziToast('Gre\u0161ka: ' + e.message);
         }
         document.getElementById('btn-analiziraj').innerHTML = '<span>&#128269; Prevedi i analiziraj</span>';
         document.getElementById('btn-analiziraj').disabled = false;
+        document.querySelector('.kolumna').scrollTop = 0;
+        window.scrollTo(0, 0);
     }
 
     async function predloziOdgovor() {
@@ -592,7 +918,7 @@ body {
         try {
             const prompt = `Prevedi sljede\u0107i tekst s hrvatskog na ${detektiraniJezik || 'engleski'}. Zadr\u017ei isti ton i stil. Bez ikakvih komentara \u2014 samo prijevod.\n\n"""\n${hrTekst}\n"""`;
             const preveden = await gemini(prompt);
-            document.getElementById('box-finalni').textContent = preveden;
+            document.getElementById('box-finalni').value = preveden;
             pokazi(['sekcija-finalni']);
         } catch (e) {
             prikaziToast('Gre\u0161ka: ' + e.message);
@@ -602,7 +928,7 @@ body {
     }
 
     function kopiraj() {
-        const tekst = document.getElementById('box-finalni').textContent;
+        const tekst = document.getElementById('box-finalni').value;
         if (!tekst) return;
         navigator.clipboard.writeText(tekst).then(() => {
             const btn = document.getElementById('btn-kopiraj');
@@ -620,15 +946,221 @@ body {
         document.getElementById('textarea-skica').value = '';
         document.getElementById('textarea-odgovor-hr').value = '';
         document.getElementById('box-prijevod').textContent = '';
-        document.getElementById('box-finalni').textContent = '';
+        document.getElementById('box-finalni').value = '';
         document.getElementById('jezik-badge').classList.add('skriven');
         sakrij(['sekcija-prijevod', 'sekcija-skica', 'sekcija-odgovor', 'sekcija-finalni']);
         detektiraniJezik = '';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        detektiraniJezikKod = '';
+        ulazLangKod = '';
+        zadnjiClipboard = '';
+        document.querySelector('.kolumna').scrollTop = 0;
+        const ulaz2 = document.getElementById('ulaz');
+        ulaz2.style.height = '75px';
+        ulaz2.focus();
+    }
+
+
+
+    // --- ZVUCNIK (Text-to-Speech) ---
+    function citaj(boxId, jezikKod) {
+        const el = document.getElementById(boxId);
+        const tekst = (el.tagName === 'TEXTAREA' ? el.value : el.textContent).trim();
+        if (!tekst) { prikaziToast('Nema teksta za citanje!'); return; }
+        const btnIdMap = { 'box-prijevod': 'btn-citaj-prijevod', 'box-finalni': 'btn-citaj-finalni', 'ulaz-tekst': 'btn-citaj-ulaz' };
+        const btnId = btnIdMap[boxId] || 'btn-citaj-prijevod';
+        const btn = document.getElementById(btnId);
+        if (speechSynthesis.speaking) {
+            speechSynthesis.cancel();
+            btn.innerHTML = '&#128266;';
+            btn.classList.remove('govori');
+            return;
+        }
+        const langMap = { hr: 'hr-HR', en: 'en-GB', de: 'de-DE', fr: 'fr-FR', it: 'it-IT', es: 'es-ES', pl: 'pl-PL', nl: 'nl-NL', cs: 'cs-CZ', sk: 'sk-SK', hu: 'hu-HU', ro: 'ro-RO', sl: 'sl-SI', sr: 'sr-RS', bs: 'bs-BA', ru: 'ru-RU', pt: 'pt-PT', tr: 'tr-TR', ar: 'ar-SA', zh: 'zh-CN', ja: 'ja-JP' };
+        const utt = new SpeechSynthesisUtterance(tekst);
+        utt.lang = langMap[jezikKod] || jezikKod || 'hr-HR';
+        utt.rate = 0.95;
+        utt.onstart = () => { btn.innerHTML = '&#9209;'; btn.classList.add('govori'); };
+        utt.onend   = () => { btn.innerHTML = '&#128266;'; btn.classList.remove('govori'); };
+        utt.onerror = () => { btn.innerHTML = '&#128266;'; btn.classList.remove('govori'); };
+        speechSynthesis.speak(utt);
+    }
+    const LANG_MAP   = { hr:'hr-HR', en:'en-US', de:'de-DE', fr:'fr-FR', it:'it-IT', es:'es-ES', pl:'pl-PL', nl:'nl-NL', cs:'cs-CZ', sk:'sk-SK', hu:'hu-HU', ro:'ro-RO', sl:'sl-SI', sr:'sr-RS', bs:'bs-BA', ru:'ru-RU', pt:'pt-PT', tr:'tr-TR', ar:'ar-SA', zh:'zh-CN', ja:'ja-JP' };
+    const LANG_POZN  = { hr:'hrvatski', en:'engleski', de:'njemački', fr:'francuski', it:'talijanski', es:'španjolski', pl:'poljski', nl:'nizozemski', cs:'češki', sk:'slovački', hu:'mađarski', ro:'rumunjski', sl:'slovenski', sr:'srpski', bs:'bosanski', ru:'ruski', pt:'portugalski', tr:'turski', ar:'arapski', zh:'kineski', ja:'japanski' };
+    const LANG_ZAST  = { hr:'🇭🇷', en:'🇬🇧', de:'🇩🇪', fr:'🇫🇷', it:'🇮🇹', es:'🇪🇸', pl:'🇵🇱', nl:'🇳🇱', cs:'🇨🇿', sk:'🇸🇰', hu:'🇭🇺', ro:'🇷🇴', sl:'🇸🇮', sr:'🇷🇸', bs:'🇧🇦', ru:'🇷🇺', pt:'🇵🇹', tr:'🇹🇷', ar:'🇸🇦', zh:'🇨🇳', ja:'🇯🇵' };
+    const LANG_LIСТА = ['hr','en','de','fr','it','es','pl','nl','cs','sk','hu','ro','sl','sr','bs','ru','pt','tr','ar','zh','ja'];
+    let ulazLangKod = '';
+
+    async function detektirajUlazniJezik(tekst) {
+        const badge = document.getElementById('jezik-badge');
+        badge.textContent = '⏳';
+        badge.classList.remove('skriven');
+        try {
+            const prompt = `What language is the following text written in? Reply with ONLY the ISO 639-1 two-letter code (e.g. de, en, fr, hr, it, es, ru). No explanation, just the code.\n\n"""\n${tekst.slice(0, 400)}\n"""`;
+            const odgovor = await gemini(prompt);
+            const cleaned = odgovor.trim().toLowerCase().replace(/[^a-z]/g, ' ');
+            const match = cleaned.split(/\s+/).find(w => w.length === 2 && LANG_LIСТА.includes(w));
+            ulazLangKod = match || 'en';
+        } catch (e) {
+            ulazLangKod = 'en';
+        }
+        badge.textContent = (LANG_ZAST[ulazLangKod] || '🌐') + ' ' + (LANG_POZN[ulazLangKod] || ulazLangKod);
+        badge.dataset.lang = ulazLangKod;
+    }
+
+    async function citajUlaz() {
+        const tekst = document.getElementById('ulaz').value.trim();
+        if (!tekst) { prikaziToast('Nema teksta za citanje!'); return; }
+        const btn = document.getElementById('btn-citaj-ulaz');
+        if (speechSynthesis.speaking) {
+            speechSynthesis.cancel();
+            btn.innerHTML = '&#128266;';
+            btn.classList.remove('govori');
+            return;
+        }
+        if (!ulazLangKod) await detektirajUlazniJezik(tekst);
+        const utt = new SpeechSynthesisUtterance(tekst);
+        utt.lang = LANG_MAP[ulazLangKod] || 'en-US';
+        utt.rate = 0.95;
+        utt.onstart = () => { btn.innerHTML = '&#9209;'; btn.classList.add('govori'); };
+        utt.onend   = () => { btn.innerHTML = '&#128266;'; btn.classList.remove('govori'); };
+        utt.onerror = () => { btn.innerHTML = '&#128266;'; btn.classList.remove('govori'); };
+        speechSynthesis.speak(utt);
+    }
+
+    async function zalijepiUlaz() {
+        const ulaz = document.getElementById('ulaz');
+        const btn = document.getElementById('btn-zalijepi');
+        function potvrdi(tekst) {
+            btn.innerHTML = '&#10003; Zalijepljeno';
+            btn.classList.add('ok');
+            setTimeout(() => { btn.innerHTML = '&#128203; Zalijepi'; btn.classList.remove('ok'); }, 1500);
+            ulazLangKod = '';
+            detektiraniJezikKod = '';
+            detektiraniJezik = '';
+            if (tekst) detektirajUlazniJezik(tekst);
+        }
+        // Pokusaj Clipboard API
+        if (navigator.clipboard && navigator.clipboard.readText) {
+            try {
+                const tekst = await navigator.clipboard.readText();
+                if (!tekst.trim()) { prikaziToast('Medjuspremnik je prazan!'); return; }
+                ulaz.value = tekst;
+                autoResize(ulaz);
+                potvrdi(tekst);
+                return;
+            } catch (e) {}
+        }
+        // Fallback: fokusiraj polje i pokreni execCommand paste
+        ulaz.focus();
+        try {
+            const ok = document.execCommand('paste');
+            if (ok) { potvrdi(ulaz.value); return; }
+        } catch (e) {}
+        // Zadnji resort
+        prikaziToast('Pritisni Ctrl+V za lijepljenje');
+    }
+
+    function kopirajPrijevod() {
+        const tekst = document.getElementById('box-prijevod').textContent;
+        if (!tekst) return;
+        navigator.clipboard.writeText(tekst).then(() => {
+            const btn = document.getElementById('btn-kopiraj-prijevod');
+            btn.innerHTML = '&#10003; Kopirano';
+            btn.classList.add('ok');
+            setTimeout(() => { btn.innerHTML = '&#128203; Kopiraj'; btn.classList.remove('ok'); }, 1500);
+        });
+    }
+    function autoResize(el) {
+        el.style.height = 'auto';
+        el.style.height = Math.max(75, el.scrollHeight) + 'px';
     }
 
     function pokazi(ids) { ids.forEach(id => document.getElementById(id).classList.remove('skriven')); }
     function sakrij(ids) { ids.forEach(id => document.getElementById(id).classList.add('skriven')); }
+
+    // --- HISTORIJA PRIJEVODA ---
+    const HISTORIJA_KEY = 'prevoditelj_historija';
+    const HISTORIJA_MAX = 10;
+
+    function ucitajHistoriju() {
+        try { return JSON.parse(localStorage.getItem(HISTORIJA_KEY)) || []; }
+        catch (e) { return []; }
+    }
+
+    function spremiPrijevod(original, prijevod, jezikNaziv, jezikKod) {
+        const historija = ucitajHistoriju();
+        const nova = { datum: new Date().toISOString(), original, prijevod, jezikNaziv, jezikKod };
+        historija.unshift(nova);
+        if (historija.length > HISTORIJA_MAX) historija.length = HISTORIJA_MAX;
+        localStorage.setItem(HISTORIJA_KEY, JSON.stringify(historija));
+    }
+
+    function otvoriHistoriju() {
+        renderHistorija();
+        document.getElementById('historija-panel').classList.add('otvoren');
+        document.getElementById('historija-overlay').classList.add('otvoren');
+    }
+
+        function otvoriDonate() {
+        document.getElementById('donate-overlay').style.display = 'block';
+        document.getElementById('donate-modal').style.display = 'block';
+    }
+    function zatvoriDonate() {
+        document.getElementById('donate-overlay').style.display = 'none';
+        document.getElementById('donate-modal').style.display = 'none';
+    }
+    function kopirajIban() {
+        navigator.clipboard.writeText('LT72 3250 0890 0895 6704').then(() => {
+            const btn = document.getElementById('btn-kopiraj-iban');
+            btn.textContent = '\u2705 Kopirano!';
+            setTimeout(() => { btn.innerHTML = '&#128203; Kopiraj IBAN'; }, 2000);
+        });
+    }
+    function zatvoriHistoriju() {
+        document.getElementById('historija-panel').classList.remove('otvoren');
+        document.getElementById('historija-overlay').classList.remove('otvoren');
+    }
+
+    function obrisiHistoriju() {
+        if (!confirm('Obrisati svu povijest prijevoda?')) return;
+        localStorage.removeItem(HISTORIJA_KEY);
+        renderHistorija();
+    }
+
+    function renderHistorija() {
+        const historija = ucitajHistoriju();
+        const lista = document.getElementById('historija-lista');
+        if (historija.length === 0) {
+            lista.innerHTML = '<div class="historija-prazno"><span>&#128221;</span>Nema spremljenih prijevoda.<br>Prevedite poruku da biste počeli.</div>';
+            return;
+        }
+        const zastavice = { de: '🇩🇪', en: '🇬🇧', fr: '🇫🇷', it: '🇮🇹', es: '🇪🇸', pl: '🇵🇱', nl: '🇳🇱', cs: '🇨🇿', sk: '🇸🇰', hu: '🇭🇺', ro: '🇷🇴', sl: '🇸🇮', sr: '🇷🇸', bs: '🇧🇦', ru: '🇷🇺', pt: '🇵🇹', tr: '🇹🇷', ar: '🇸🇦', zh: '🇨🇳', ja: '🇯🇵' };
+        lista.innerHTML = historija.map((stavka, i) => {
+            const zastava = zastavice[stavka.jezikKod] || '🌐';
+            const datum = new Date(stavka.datum);
+            const datumTekst = datum.toLocaleDateString('hr-HR', { day: '2-digit', month: '2-digit' }) + ' ' + datum.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
+            const origSkracen = stavka.original.length > 55 ? stavka.original.slice(0, 55) + '…' : stavka.original;
+            const prijSkracen = stavka.prijevod.length > 55 ? stavka.prijevod.slice(0, 55) + '…' : stavka.prijevod;
+            const jezikLabel = stavka.jezikNaziv ? stavka.jezikNaziv.charAt(0).toUpperCase() + stavka.jezikNaziv.slice(1) : stavka.jezikKod;
+            return `<div class="historija-stavka" onclick="ucitajIzHistorije(${i})">
+                <div class="historija-meta">
+                    <span class="historija-lang">${zastava} ${jezikLabel}</span>
+                    <span class="historija-datum">${datumTekst}</span>
+                </div>
+                <div class="historija-original">${origSkracen}</div>
+                <div class="historija-prijevod">↳ ${prijSkracen}</div>
+            </div>`;
+        }).join('');
+    }
+
+    function ucitajIzHistorije(indeks) {
+        const historija = ucitajHistoriju();
+        const stavka = historija[indeks];
+        if (!stavka) return;
+        zatvoriHistoriju();
+        document.getElementById('ulaz').value = stavka.original;
+        analiziraj();
+    }
 
     function prikaziToast(tekst) {
         const t = document.getElementById('toast');
@@ -644,6 +1176,8 @@ body {
     async function provjeriClipboard() {
         try {
             const tekst = await navigator.clipboard.readText();
+            document.getElementById('btn-clipboard').classList.add('aktivan');
+            document.getElementById('btn-clipboard').title = 'Auto-detekcija aktivna ✓';
             if (!tekst || tekst === zadnjiClipboard) return;
             if (tekst === document.getElementById('ulaz').value.trim()) return;
             if (tekst.trim().length < 5) return;
@@ -654,13 +1188,34 @@ body {
             banner.classList.add('prikazan');
             clearTimeout(clipboardBannerTimer);
             clipboardBannerTimer = setTimeout(clipboardOdbaci, 8000);
-        } catch (e) {}
+        } catch (e) { }
+    }
+
+    async function klikClipboard() {
+        try {
+            const tekst = await navigator.clipboard.readText();
+            document.getElementById('btn-clipboard').classList.add('aktivan');
+            document.getElementById('btn-clipboard').title = 'Auto-detekcija aktivna ✓';
+            if (tekst && tekst !== zadnjiClipboard && tekst !== document.getElementById('ulaz').value.trim() && tekst.trim().length >= 5) {
+                zadnjiClipboard = tekst;
+                const preview = tekst.length > 50 ? tekst.slice(0, 50) + '\u2026' : tekst;
+                document.getElementById('cb-preview').textContent = preview;
+                const banner = document.getElementById('clipboard-banner');
+                banner.classList.add('prikazan');
+                clearTimeout(clipboardBannerTimer);
+                clipboardBannerTimer = setTimeout(clipboardOdbaci, 8000);
+            } else {
+                prikaziToast('✓ Međuspremnik aktivan!');
+            }
+        } catch (e) {
+            prikaziToast('⚠️ Klikni 🔒 u traci > Dozvole stranice > Međuspremnik > Dopusti');
+        }
     }
 
     function clipboardPreuzmi() {
         document.getElementById('ulaz').value = zadnjiClipboard;
         clipboardOdbaci();
-        if (getApiKey()) analiziraj();
+        analiziraj();
     }
 
     function clipboardOdbaci() {
@@ -673,6 +1228,7 @@ body {
     });
     window.addEventListener('focus', provjeriClipboard);
 
+
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
     }
@@ -684,8 +1240,34 @@ body {
             const tekst = decodeURIComponent(shared);
             document.getElementById('ulaz').value = tekst;
             history.replaceState({}, '', window.location.pathname);
-            if (getApiKey()) analiziraj();
+            analiziraj();
         }
+    });
+
+
+    // --- DARK MODE ---
+    function toggleDark() {
+        const dark = document.body.classList.toggle('dark');
+        localStorage.setItem('darkMode', dark ? '1' : '0');
+        document.getElementById('btn-dark').innerHTML = dark ? '&#9728; Light' : '&#9790; Dark';
+    }
+    (function initDark() {
+        if (localStorage.getItem('darkMode') === '1') {
+            document.body.classList.add('dark');
+            const btn = document.getElementById('btn-dark');
+            if (btn) btn.innerHTML = '&#9728; Light';
+        }
+    })();
+
+    // Detekcija jezika kad korisnik rucno zalijeplja Ctrl+V
+    document.getElementById('ulaz').addEventListener('paste', function() {
+        ulazLangKod = '';
+        detektiraniJezikKod = '';
+        detektiraniJezik = '';
+        setTimeout(() => {
+            const tekst = this.value.trim();
+            if (tekst) detektirajUlazniJezik(tekst);
+        }, 50);
     });
 </script>
 </body>
