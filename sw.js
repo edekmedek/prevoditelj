@@ -1,4 +1,4 @@
-﻿const CACHE = 'prevodatelj-v10';
+﻿const CACHE = 'prevodatelj-v11';
 
 self.addEventListener('install', e => {
     self.skipWaiting();
