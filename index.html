@@ -635,6 +635,25 @@ body { flex: 1; display: flex; flex-direction: column; }
     .sadrzaj { flex-direction: column; overflow: visible; }
     .kolumna { overflow: visible; }
 }
+/* --- MOD SWITCHER --- */
+.mod-switcher { display:flex; background:var(--white); border-bottom:2px solid #e2e8f0; flex-shrink:0; }
+.mod-tab { flex:1; padding:11px 8px; background:none; border:none; border-bottom:3px solid transparent; margin-bottom:-2px; font-size:13px; font-weight:700; color:var(--siva); cursor:pointer; transition:color 0.15s,border-color 0.15s; font-family:inherit; }
+.mod-tab.aktivan { color:var(--plava); border-bottom-color:var(--plava); }
+body.dark .mod-switcher { background:#1e293b; border-bottom-color:#2d3f55; }
+/* --- ČISTI PRIJEVOD MOD --- */
+#mod-cisti-content { flex:1; overflow-y:auto; padding:14px 16px; display:flex; flex-direction:column; gap:12px; max-width:800px; width:100%; margin:0 auto; box-sizing:border-box; }
+.cisti-blok { background:var(--white); border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,0.07); overflow:hidden; }
+.cisti-blok .sekcija-header { background:#f8fafc; border-bottom:1px solid #e2e8f0; padding:9px 14px; font-size:12px; font-weight:700; color:var(--siva); text-transform:uppercase; letter-spacing:0.5px; display:flex; justify-content:space-between; align-items:center; }
+.cisti-textarea { width:100%; min-height:120px; padding:12px 14px; border:none; resize:vertical; font-family:inherit; font-size:15px; color:var(--text); background:var(--white); outline:none; line-height:1.6; }
+.jezik-select { -webkit-appearance:none; appearance:none; background:var(--white); border:1.5px solid #cbd5e1; border-radius:9px; padding:9px 12px; font-size:14px; color:var(--text); cursor:pointer; font-family:inherit; flex:1; }
+.cisti-rezultat-box { padding:13px 14px; min-height:90px; font-size:15px; line-height:1.65; color:var(--text); white-space:pre-wrap; background:#eff6ff; border-top:1.5px solid #bfdbfe; }
+.cisti-prazno { color:var(--siva); font-style:italic; }
+body.dark .cisti-blok { box-shadow:0 1px 4px rgba(0,0,0,0.3); }
+body.dark .cisti-blok .sekcija-header { background:#162032; border-bottom-color:#2d3f55; }
+body.dark .cisti-textarea { background:#1e293b; color:var(--text); }
+body.dark .cisti-textarea::placeholder { color:#475569; }
+body.dark .jezik-select { background:#0f172a; border-color:#2d3f55; color:var(--text); }
+body.dark .cisti-rezultat-box { background:#162032; border-top-color:#1d4ed8; }
 </style>
 </head>
 <body>
@@ -682,6 +701,11 @@ body { flex: 1; display: flex; flex-direction: column; }
         <span>Groq AI &middot; automatski prijevod</span>
     </div>
     <button class="btn-postavke btn-postavke-label" id="btn-dark" onclick="toggleDark()" title="Tamni/svijetli prikaz"><span id="btn-dark-ikona">&#9790;</span> Dark</button> <button class="btn-postavke btn-postavke-label" onclick="otvoriHistoriju()" title="Zadnji prijevodi">&#128336; Povijest</button> <button class="btn-postavke btn-postavke-label" onclick="otvoriDonate()" title="Podrzi razvoj" style="background:rgba(255,200,0,0.25);border:1px solid rgba(255,255,255,0.3);"><img src="./avatar.jpg" style="width:30px;height:30px;border-radius:50%;object-fit:cover;margin-right:6px;vertical-align:middle;"> Buy Me a Coffee</button> <button class="btn-postavke btn-postavke-label" onclick="ocisti()" title="Obrisi sve i pocni ispocetka" style="background:rgba(220,38,38,0.25);border:1px solid rgba(255,255,255,0.3);">&#128465; Očisti</button>
+</div>
+
+<div class="mod-switcher">
+    <button class="mod-tab aktivan" id="tab-odgovor" onclick="prebacioMod('odgovor')">&#8617; Odgovori na poruku</button>
+    <button class="mod-tab" id="tab-cisti" onclick="prebacioMod('cisti')">&#128195; &#268;isti prijevod</button>
 </div>
 
 <div class="sadrzaj">
@@ -772,6 +796,61 @@ body { flex: 1; display: flex; flex-direction: column; }
         </div>
     </div>
 
+    </div>
+</div>
+
+<div id="mod-cisti-content" class="skriven">
+    <div class="cisti-blok">
+        <div class="sekcija-header">
+            <span>Tekst za prijevod</span>
+            <button class="btn-mini" id="btn-cisti-zalijepi" onclick="cistiZalijepi()" title="Zalijepi iz međuspremnika">&#128203; Zalijepi</button>
+        </div>
+        <textarea id="cisti-ulaz" class="cisti-textarea" placeholder="Upiši ili zalijepi tekst koji želiš prevesti..." oninput="autoResize(this)"></textarea>
+    </div>
+
+    <div class="cisti-blok">
+        <div class="sekcija-header"><span>Izlazni jezik</span></div>
+        <div style="padding:10px 14px;">
+            <select id="cisti-jezik" class="jezik-select">
+                <option value="engleski" data-kod="en">&#127468;&#127463; Engleski</option>
+                <option value="njemački" data-kod="de">&#127465;&#127466; Njemački</option>
+                <option value="francuski" data-kod="fr">&#127467;&#127479; Francuski</option>
+                <option value="talijanski" data-kod="it">&#127470;&#127481; Talijanski</option>
+                <option value="španjolski" data-kod="es">&#127466;&#127480; Španjolski</option>
+                <option value="poljski" data-kod="pl">&#127477;&#127473; Poljski</option>
+                <option value="nizozemski" data-kod="nl">&#127475;&#127473; Nizozemski</option>
+                <option value="češki" data-kod="cs">&#127464;&#127487; Češki</option>
+                <option value="slovački" data-kod="sk">&#127480;&#127472; Slovački</option>
+                <option value="mađarski" data-kod="hu">&#127469;&#127482; Mađarski</option>
+                <option value="rumunjski" data-kod="ro">&#127479;&#127476; Rumunjski</option>
+                <option value="slovenski" data-kod="sl">&#127480;&#127470; Slovenski</option>
+                <option value="srpski" data-kod="sr">&#127479;&#127480; Srpski</option>
+                <option value="bosanski" data-kod="bs">&#127463;&#127462; Bosanski</option>
+                <option value="hrvatski" data-kod="hr">&#127469;&#127479; Hrvatski</option>
+                <option value="ruski" data-kod="ru">&#127479;&#127482; Ruski</option>
+                <option value="portugalski" data-kod="pt">&#127477;&#127481; Portugalski</option>
+                <option value="turski" data-kod="tr">&#127481;&#127479; Turski</option>
+                <option value="arapski" data-kod="ar">&#127480;&#127462; Arapski</option>
+                <option value="kineski" data-kod="zh">&#127464;&#127475; Kineski</option>
+                <option value="japanski" data-kod="ja">&#127471;&#127477; Japanski</option>
+            </select>
+        </div>
+        <div style="padding:0 14px 12px;">
+            <button class="btn btn-primarni" id="btn-cisti-prevedi" onclick="cistiPrijevod()" style="width:100%;justify-content:center;">
+                &#128260; Prevedi
+            </button>
+        </div>
+    </div>
+
+    <div class="cisti-blok" id="cisti-rezultat-blok" style="display:none;">
+        <div class="sekcija-header">
+            <span>Prijevod</span>
+            <div style="display:flex;gap:5px;align-items:center;">
+                <button class="btn-mini" id="btn-cisti-citaj" onclick="cistiCitaj()" title="Čitaj naglas">&#128266;</button>
+                <button class="btn-mini" id="btn-cisti-kopiraj" onclick="cistiKopiraj()">&#128203; Kopiraj</button>
+            </div>
+        </div>
+        <div class="cisti-rezultat-box" id="cisti-rezultat"></div>
     </div>
 </div>
 
@@ -916,7 +995,9 @@ body { flex: 1; display: flex; flex-direction: column; }
         setLoading('btn-prevedi-odgovor', true);
         sakrij(['sekcija-finalni']);
         try {
-            const prompt = `Prevedi sljede\u0107i tekst s hrvatskog na ${detektiraniJezik || 'engleski'}. Zadr\u017ei isti ton i stil. Bez ikakvih komentara \u2014 samo prijevod.\n\n"""\n${hrTekst}\n"""`;
+            const originalna = document.getElementById('ulaz').value.trim();
+            const kontekstDio = originalna ? `\n\nKontekst \u2014 originalna poruka na koju odgovaramo:\n"""\n${originalna}\n"""` : '';
+            const prompt = `Prevedi sljede\u0107i odgovor s hrvatskog na ${detektiraniJezik || 'engleski'}. Prijevod mora zvu\u010dati prirodno i idiomatski, kao da ga je napisao izvorni govornik tog jezika \u2014 ne kao doslovan prijevod. Zadr\u017ei ton i stil izvornog teksta. Bez ikakvih komentara, obja\u0161njenja ili uvoda \u2014 samo sam prijevod.${kontekstDio}\n\nTekst za prijevod:\n"""\n${hrTekst}\n"""`;
             const preveden = await gemini(prompt);
             document.getElementById('box-finalni').value = preveden;
             pokazi(['sekcija-finalni']);
@@ -1025,6 +1106,59 @@ body { flex: 1; display: flex; flex-direction: column; }
         utt.onend   = () => { btn.innerHTML = '&#128266;'; btn.classList.remove('govori'); };
         utt.onerror = () => { btn.innerHTML = '&#128266;'; btn.classList.remove('govori'); };
         speechSynthesis.speak(utt);
+    }
+
+    let mikrec = null;
+    let mikAktivan = false;
+
+    function toggleMikrofon() {
+        const btn = document.getElementById('btn-mikrofon');
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SR) {
+            prikaziToast('Prepoznavanje govora nije podržano u ovom pregledniku.');
+            return;
+        }
+        if (mikAktivan && mikrec) {
+            mikrec.stop();
+            return;
+        }
+        mikrec = new SR();
+        mikrec.continuous = false;
+        mikrec.interimResults = false;
+        mikrec.onstart = () => {
+            mikAktivan = true;
+            btn.innerHTML = '&#128308;';
+            btn.classList.add('govori');
+            prikaziToast('Slušam...');
+        };
+        mikrec.onresult = (e) => {
+            const tekst = e.results[0][0].transcript;
+            const ulaz = document.getElementById('ulaz');
+            ulaz.value = ulaz.value ? ulaz.value.trimEnd() + ' ' + tekst : tekst;
+            autoResize(ulaz);
+            ulazLangKod = '';
+            detektiraniJezikKod = '';
+            detektiraniJezik = '';
+            if (ulaz.value.trim()) detektirajUlazniJezik(ulaz.value.trim());
+        };
+        mikrec.onerror = (e) => {
+            mikAktivan = false;
+            btn.innerHTML = '&#127908;';
+            btn.classList.remove('govori');
+            if (e.error === 'not-allowed') prikaziToast('Pristup mikrofonu odbijen! Dozvoli mikrofon u postavkama preglednika.');
+            else if (e.error === 'no-speech') prikaziToast('Nije prepoznan govor.');
+            else prikaziToast('Greška mikrofona: ' + e.error);
+        };
+        mikrec.onend = () => {
+            mikAktivan = false;
+            btn.innerHTML = '&#127908;';
+            btn.classList.remove('govori');
+        };
+        try {
+            mikrec.start();
+        } catch (e) {
+            prikaziToast('Greška: ' + e.message);
+        }
     }
 
     async function zalijepiUlaz() {
@@ -1269,6 +1403,87 @@ body { flex: 1; display: flex; flex-direction: column; }
             if (tekst) detektirajUlazniJezik(tekst);
         }, 50);
     });
+
+    // --- ČISTI PRIJEVOD MOD ---
+    function prebacioMod(mod) {
+        const jeOdgovor = mod === 'odgovor';
+        document.getElementById('tab-odgovor').classList.toggle('aktivan', jeOdgovor);
+        document.getElementById('tab-cisti').classList.toggle('aktivan', !jeOdgovor);
+        document.querySelector('.sadrzaj').classList.toggle('skriven', !jeOdgovor);
+        document.getElementById('mod-cisti-content').classList.toggle('skriven', jeOdgovor);
+    }
+
+    async function cistiPrijevod() {
+        const tekst = document.getElementById('cisti-ulaz').value.trim();
+        if (!tekst) { prikaziToast('Upi\u0161i tekst za prijevod!'); return; }
+        const select = document.getElementById('cisti-jezik');
+        const izlazniJezik = select.value;
+        const izlazniKod = select.selectedOptions[0]?.dataset?.kod || 'en';
+        setLoading('btn-cisti-prevedi', true);
+        document.getElementById('cisti-rezultat-blok').style.display = 'none';
+        try {
+            const prompt = `Prevedi sljede\u0107i tekst na ${izlazniJezik}. Prijevod mora zvu\u010dati prirodno i idiomatski, kao da ga je napisao izvorni govornik \u2014 ne kao doslovan prijevod. Bez ikakvih komentara, obja\u0161njenja ili uvoda \u2014 samo sam prijevod.\n\n"""\n${tekst}\n"""`;
+            const rezultat = await gemini(prompt);
+            document.getElementById('cisti-rezultat').textContent = rezultat;
+            document.getElementById('cisti-rezultat').dataset.jezikKod = izlazniKod;
+            document.getElementById('cisti-rezultat-blok').style.display = 'block';
+        } catch (e) {
+            prikaziToast('Gre\u0161ka: ' + e.message);
+        }
+        document.getElementById('btn-cisti-prevedi').innerHTML = '&#128260; Prevedi';
+        document.getElementById('btn-cisti-prevedi').disabled = false;
+    }
+
+    function cistiKopiraj() {
+        const tekst = document.getElementById('cisti-rezultat').textContent;
+        if (!tekst) return;
+        navigator.clipboard.writeText(tekst).then(() => {
+            const btn = document.getElementById('btn-cisti-kopiraj');
+            btn.innerHTML = '&#10003; Kopirano';
+            btn.classList.add('ok');
+            setTimeout(() => { btn.innerHTML = '&#128203; Kopiraj'; btn.classList.remove('ok'); }, 1500);
+        });
+    }
+
+    function cistiCitaj() {
+        const el = document.getElementById('cisti-rezultat');
+        const tekst = el.textContent.trim();
+        if (!tekst) return;
+        const btn = document.getElementById('btn-cisti-citaj');
+        if (speechSynthesis.speaking) {
+            speechSynthesis.cancel();
+            btn.innerHTML = '&#128266;';
+            btn.classList.remove('govori');
+            return;
+        }
+        const jezikKod = el.dataset.jezikKod || 'en';
+        const utt = new SpeechSynthesisUtterance(tekst);
+        utt.lang = LANG_MAP[jezikKod] || 'en-US';
+        utt.rate = 0.95;
+        utt.onstart = () => { btn.innerHTML = '&#9209;'; btn.classList.add('govori'); };
+        utt.onend   = () => { btn.innerHTML = '&#128266;'; btn.classList.remove('govori'); };
+        utt.onerror = () => { btn.innerHTML = '&#128266;'; btn.classList.remove('govori'); };
+        speechSynthesis.speak(utt);
+    }
+
+    async function cistiZalijepi() {
+        const el = document.getElementById('cisti-ulaz');
+        const btn = document.getElementById('btn-cisti-zalijepi');
+        if (navigator.clipboard && navigator.clipboard.readText) {
+            try {
+                const tekst = await navigator.clipboard.readText();
+                if (!tekst.trim()) { prikaziToast('Me\u0111uspremnik je prazan!'); return; }
+                el.value = tekst;
+                autoResize(el);
+                btn.innerHTML = '&#10003; Zalijepljeno';
+                btn.classList.add('ok');
+                setTimeout(() => { btn.innerHTML = '&#128203; Zalijepi'; btn.classList.remove('ok'); }, 1500);
+                return;
+            } catch (e) {}
+        }
+        el.focus();
+        prikaziToast('Pritisni Ctrl+V za lijepljenje');
+    }
 </script>
 </body>
 </html>
